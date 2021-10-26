@@ -31,10 +31,10 @@ export const HelloWorld: React.FC<{
 				<Sequence from={transitionStart + 10}>
 					<Title titleText={titleText} titleColor={titleColor} />
 				</Sequence>
-				<Sequence from={transitionStart + 50}>
+				<Sequence from={transitionStart + 50} durationInFrames={40}>
 					<Subtitle />
 				</Sequence>
-				<Sequence from={transitionStart + 60}>
+				<Sequence from={transitionStart + 100}>
 					<Stats />
 				</Sequence>
 			</div>
