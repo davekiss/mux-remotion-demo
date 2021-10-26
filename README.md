@@ -1,12 +1,8 @@
-# Remotion video
+# mux-remotion-demo
 
-<p align="center">
-  <a href="https://github.com/remotion-dev/logo">
-    <img src="https://github.com/remotion-dev/logo/raw/main/withtitle/element-0.png">
-  </a>
-</p>
+Make sure to set your Mux access token and secret key!
 
-Welcome to your Remotion project!
+Copy the `.env.example` file to a new file called `.env` and add your keys there.
 
 ## Commands
 
