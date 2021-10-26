@@ -11,12 +11,12 @@ export const RemotionVideo: React.FC = () => {
 			<Composition
 				id="HelloWorld"
 				component={HelloWorld}
-				durationInFrames={150}
+				durationInFrames={1000}
 				fps={30}
 				width={1920}
 				height={1080}
 				defaultProps={{
-					titleText: 'Welcome to dave',
+					titleText: 'Mux Monthly Stats',
 					titleColor: 'black',
 				}}
 			/>
@@ -52,7 +52,7 @@ export const RemotionVideo: React.FC = () => {
 			<Composition
 				id="Stats"
 				component={Stats}
-				durationInFrames={100}
+				durationInFrames={180}
 				fps={30}
 				width={1920}
 				height={1080}
