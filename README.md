@@ -4,6 +4,13 @@ Make sure to set your Mux access token and secret key!
 
 Copy the `.env.example` file to a new file called `.env` and add your keys there.
 
+This demo uses `date-fns` to help easily calculate timeframes for which we'd like to pull stats from.
+
+### Notes
+
+- `Composition` elements defined in `Video.tsx` will be added to the media library in the app sidebar.
+- Setting a `durationInFrames` prop on the `Sequence` component in the `Timeline` specifies how long the component should display for.
+
 ## Commands
 
 **Start Preview**
