@@ -10,8 +10,8 @@ export const Stats: React.FC = () => {
 
   const fetchData = async () => {
     const headers = new Headers();
-    const username = "";
-    const password = ""
+    const username = process.env.MUX_PUBLIC_KEY;
+    const password = process.env.MUX_SECRET_KEY;
     headers.set('Authorization', 'Basic ' + btoa(username + ":" + password));
 
     const response = await fetch('https://api.mux.com/data/v1/metrics/views/insights', { headers })
