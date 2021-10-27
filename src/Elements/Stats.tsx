@@ -9,8 +9,6 @@ type OverallViewsResponse = {
   timeframe: number[];
 }
 
-type TimeframeRange = "pastMonth" | "previousMonth"
-
 const Stat = ({ children }: { children: React.ReactNode }) => (
   <div className="mb-12">{children}</div>
 )
@@ -35,23 +33,17 @@ export const Stats: React.FC = () => {
   const [data, setData] = useState<OverallViewsResponse | null>(null)
   const [handle] = useState(() => delayRender())
 
-  const getTimeframe = (range: TimeframeRange) => {
-    const timeframe = timeframes[range];
-    return `timeframe[]=${timeframe[0]}&timeframe[]=${timeframe[1]}`;
-  }
-
   const fetchData = useCallback(async () => {
     const headers = new Headers();
     const username = process.env.MUX_PUBLIC_KEY;
     const password = process.env.MUX_SECRET_KEY;
     headers.set('Authorization', 'Basic ' + btoa(username + ":" + password));
 
-    const response = await fetch(`https://api.mux.com/data/v1/metrics/views/overall?${getTimeframe('pastMonth')}`, { headers })
+    const response = await fetch(`https://api.mux.com/data/v1/metrics/views/overall?${timeframes.pastMonthQuery}`, { headers })
     const json = await response.json() as OverallViewsResponse
     setData(json)
     continueRender(handle)
-  }, [handle])
-
+  }, [handle]);
 
   useEffect(() => {
     fetchData()
