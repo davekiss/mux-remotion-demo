@@ -4,6 +4,8 @@ Make sure to set your Mux access token and secret key!
 
 Copy the `.env.example` file to a new file called `.env` and add your keys there.
 
+You'll also need to install ffmpeg to render your video locally. You can do that on MacOS with homebrew by running `brew install ffmpeg`. This will take a few minutes to download and install, so now is a good time to go check your mail or do a few laps around the block.
+
 This demo uses `date-fns` to help easily calculate timeframes for which we'd like to pull stats from.
 
 ### Notes
