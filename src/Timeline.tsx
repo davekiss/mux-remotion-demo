@@ -28,12 +28,11 @@ export const Timeline: React.FC<{
           <div className="flex items-center justify-center w-full">
             <MuxLogo transitionStart={transitionStart} />
           </div>
-
         </Sequence>
         <Sequence from={transitionStart + 10} durationInFrames={90}>
           <Title titleText={titleText} titleColor={titleColor} />
         </Sequence>
-        <Sequence from={transitionStart + 100}>
+        <Sequence from={transitionStart + 100} durationInFrames={180}>
           <Stats />
         </Sequence>
       </div>
