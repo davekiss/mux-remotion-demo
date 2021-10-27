@@ -20,7 +20,7 @@ const Value = ({ children }: { children: React.ReactNode }) => (
 )
 
 const Label = ({ children }: { children: React.ReactNode }) => (
-  <div className="font-semibold text-gray-400 text-5xl uppercase">{children}</div>
+  <div className="font-semibold text-gray-500 text-5xl uppercase">{children}</div>
 )
 
 const DateRange = ({ children }: { children: React.ReactNode }) => (
