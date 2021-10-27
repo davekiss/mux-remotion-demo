@@ -12,6 +12,7 @@
 	"repository": {},
 	"license": "UNLICENSED",
 	"dependencies": {
+		"@mux/mux-node": "^3.3.1",
 		"@remotion/bundler": "^2.5.0",
 		"@remotion/cli": "^2.5.0",
 		"@remotion/eslint-config": "^2.5.0",
