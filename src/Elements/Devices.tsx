@@ -1,20 +1,8 @@
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState } from 'react'
 import { interpolate, useCurrentFrame, continueRender, delayRender } from 'remotion';
 import { COLOR_1 } from './config';
-import useTimeframes from "../hooks/useTimeframes"
 import { format } from 'date-fns'
-
-type DeviceBreakdown = {
-  total_watch_time: number
-  views: number;
-  total_playing_time: number;
-  field: string;
-}
-
-type DevicesBreakdownResponse = {
-  data: DeviceBreakdown[];
-  timeframe: number[];
-}
+import useData from "../hooks/useData"
 
 const Stat = ({ children }: { children: React.ReactNode }) => (
   <div className="mb-12">{children}</div>
@@ -35,26 +23,15 @@ const DateRange = ({ children }: { children: React.ReactNode }) => (
 export const Devices: React.FC = () => {
   const frame = useCurrentFrame();
   const opacity = interpolate(frame, [0, 30], [0, 1]);
-  const timeframes = useTimeframes();
-
-  const [data, setData] = useState<DevicesBreakdownResponse | null>(null)
   const [handle] = useState(() => delayRender())
 
-  const fetchData = useCallback(async () => {
-    const headers = new Headers();
-    const username = process.env.MUX_PUBLIC_KEY;
-    const password = process.env.MUX_SECRET_KEY;
-    headers.set('Authorization', 'Basic ' + btoa(username + ":" + password));
-
-    const response = await fetch(`https://api.mux.com/data/v1/metrics/views/breakdown?${timeframes.pastMonthQuery}&group_by=viewer_device_category&limit=5&order_by=views`, { headers })
-    const json = await response.json() as DevicesBreakdownResponse
-    setData(json)
-    continueRender(handle)
-  }, [handle]);
+  const { data } = useData({ timeframe: "pastMonth", group_by: "viewer_device_category", limit: 5, order_by: "views" });
 
   useEffect(() => {
-    fetchData()
-  }, [fetchData]);
+    if (data) {
+      continueRender(handle)
+    }
+  }, [data, handle]);
 
   return (
     <div
@@ -71,7 +48,6 @@ export const Devices: React.FC = () => {
 
       {data && (
         <>
-
           <div className="grid grid-cols-5">
             {data.data.map(device => (
               <>
@@ -82,7 +58,6 @@ export const Devices: React.FC = () => {
               </>
             ))}
           </div>
-
 
           <DateRange>
             From {format(new Date(data.timeframe[0] * 1000), 'MM/dd/yyyy')} to {format(new Date(data.timeframe[1] * 1000), 'MM/dd/yyyy')}
