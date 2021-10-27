@@ -1,3 +1,5 @@
+import "./style.css";
+
 import { Composition } from 'remotion';
 import { HelloWorld } from './HelloWorld';
 import { Logo } from './HelloWorld/Logo';

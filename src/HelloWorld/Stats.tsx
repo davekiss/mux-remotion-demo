@@ -1,7 +1,8 @@
-import { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { interpolate, useCurrentFrame, continueRender, delayRender } from 'remotion';
 import { COLOR_1 } from './config';
 import useTimeframes from "../hooks/useTimeframes"
+import { format } from 'date-fns'
 
 type OverallViewsResponse = {
   data: { total_watch_time: number; total_views: number; }
@@ -9,6 +10,22 @@ type OverallViewsResponse = {
 }
 
 type TimeframeRange = "pastMonth" | "previousMonth"
+
+const Stat = ({ children }: { children: React.ReactNode }) => (
+  <div className="mb-12">{children}</div>
+)
+
+const Value = ({ children }: { children: React.ReactNode }) => (
+  <div className="font-bold" style={{ fontSize: `120px` }}>{children}</div>
+)
+
+const Label = ({ children }: { children: React.ReactNode }) => (
+  <div className="font-semibold text-gray-400 text-5xl uppercase">{children}</div>
+)
+
+const DateRange = ({ children }: { children: React.ReactNode }) => (
+  <div className="text-gray-600 text-2xl tracking-wide">{children}</div>
+)
 
 export const Stats: React.FC = () => {
   const frame = useCurrentFrame();
@@ -44,20 +61,28 @@ export const Stats: React.FC = () => {
     <div
       style={{
         fontFamily: 'Helvetica, Arial',
-        fontSize: 90,
-        textAlign: 'center',
         position: 'absolute',
         bottom: 140,
         width: '100%',
         color: COLOR_1,
         opacity
       }}
+      className="left-10"
     >
 
       {data && (
         <>
-          <div>{new Intl.NumberFormat().format(data.data.total_views)} total views</div>
-          <div>From {new Date(data.timeframe[0] * 1000).toISOString()} to {new Date(data.timeframe[1] * 1000).toISOString()}</div>
+          <Stat>
+            <Value>{new Intl.NumberFormat().format(data.data.total_views)}</Value>
+            <Label>total views</Label>
+          </Stat>
+          <Stat>
+            <Value>{new Intl.NumberFormat().format(data.data.total_watch_time)}</Value>
+            <Label>seconds of video watched</Label>
+          </Stat>
+          <DateRange>
+            From {format(new Date(data.timeframe[0] * 1000), 'MM/dd/yyyy')} to {format(new Date(data.timeframe[1] * 1000), 'MM/dd/yyyy')}
+          </DateRange>
         </>
       )}
     </div>
