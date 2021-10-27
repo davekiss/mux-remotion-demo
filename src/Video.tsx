@@ -2,7 +2,6 @@ import "./style.css";
 
 import { Composition } from 'remotion';
 import { Timeline } from './Timeline';
-import { Logo } from './Elements/Logo';
 import { Subtitle } from './Elements/Subtitle';
 import { Title } from './Elements/Title';
 import { Stats } from './Elements/Stats';
@@ -23,14 +22,7 @@ export const RemotionVideo: React.FC = () => {
           titleColor: 'black',
         }}
       />
-      <Composition
-        id="Logo"
-        component={Logo}
-        durationInFrames={200}
-        fps={30}
-        width={1920}
-        height={1080}
-      />
+
       <Composition
         id="Title"
         component={Title}
