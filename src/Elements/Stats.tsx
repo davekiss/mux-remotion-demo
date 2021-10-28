@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { interpolate, useCurrentFrame, continueRender, delayRender } from 'remotion';
+import { interpolate, useCurrentFrame, continueRender, delayRender, useVideoConfig, spring } from 'remotion';
 import { COLOR_1 } from './config';
 import { format } from 'date-fns'
 import useData, { OverallResponse } from "../hooks/useData"
+
+import TrendingUp from '../components/icons/TrendingUp';
+import TrendingDown from '../components/icons/TrendingDown';
 
 const Stat = ({ children }: { children: React.ReactNode }) => (
   <div className="mb-12">{children}</div>
@@ -20,14 +23,54 @@ const DateRange = ({ children }: { children: React.ReactNode }) => (
   <div className="text-gray-600 text-2xl tracking-wide">{children}</div>
 )
 
+const formatNumber = (i: number) => new Intl.NumberFormat().format(i)
+
+const Trend = ({ previousMonthValue, pastMonthValue }: { previousMonthValue: number; pastMonthValue: number; }) => {
+  const frame = useCurrentFrame();
+  const videoConfig = useVideoConfig();
+
+  const y = spring({
+    frame,
+    from: 100,
+    to: 0,
+    fps: videoConfig.fps,
+    config: {
+      stiffness: 100,
+    },
+  });
+
+  const delta = ((1 - previousMonthValue / pastMonthValue) * 100).toFixed(1);
+  const isTrendingUp = pastMonthValue > previousMonthValue
+  const ChartIcon = isTrendingUp ? TrendingUp : TrendingDown
+
+  return (
+    <div className={`text-3xl flex items-center ${isTrendingUp ? "text-green-700" : "text-red-700"}`} style={{ transform: `translateY(${y}px)` }}>
+      <ChartIcon /> <span className="ml-4">{delta}% from {formatNumber(previousMonthValue)}</span>
+    </div>
+  )
+}
+
 export const Stats: React.FC = () => {
   const frame = useCurrentFrame();
   const opacity = interpolate(frame, [0, 30], [0, 1]);
   const [handle] = useState(() => delayRender())
 
+  const videoConfig = useVideoConfig();
+
+  const y = spring({
+    frame,
+    from: 100,
+    to: 0,
+    fps: videoConfig.fps,
+    config: {
+      stiffness: 100,
+    },
+  });
+
   const results = useData<OverallResponse>({
     type: "overall",
   });
+
 
   useEffect(() => {
     if (results) {
@@ -50,11 +93,12 @@ export const Stats: React.FC = () => {
       {results && (
         <>
           <Stat>
-            <Value>{new Intl.NumberFormat().format(results[0].data.total_views)}</Value>
+            <Value>{formatNumber(results[0].data.total_views)}</Value>
             <Label>total views</Label>
+            <Trend pastMonthValue={results[0].data.total_views} previousMonthValue={results[1].data.total_views} />
           </Stat>
           <Stat>
-            <Value>{new Intl.NumberFormat().format(results[0].data.total_watch_time)}</Value>
+            <Value>{formatNumber(results[0].data.total_watch_time)}</Value>
             <Label>seconds of video watched</Label>
           </Stat>
           <DateRange>
