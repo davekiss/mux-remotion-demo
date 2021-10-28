@@ -34,14 +34,6 @@ export const RemotionVideo: React.FC = () => {
           titleColor: 'black',
         }}
       />
-      <Composition
-        id="Subtitle"
-        component={Subtitle}
-        durationInFrames={100}
-        fps={30}
-        width={1920}
-        height={1080}
-      />
 
       <Composition
         id="Stats"
