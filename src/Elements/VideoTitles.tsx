@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { interpolate, useCurrentFrame, continueRender, delayRender } from 'remotion';
 import { COLOR_1 } from './config';
-import useData from "../hooks/useData"
+import useData, { BreakdownResponse } from "../hooks/useData"
 import { format } from 'date-fns'
 
 const Stat = ({ children }: { children: React.ReactNode }) => (
@@ -24,13 +24,19 @@ export const VideoTitles: React.FC = () => {
   const frame = useCurrentFrame();
   const opacity = interpolate(frame, [0, 30], [0, 1]);
   const [handle] = useState(() => delayRender())
-  const { data } = useData({ timeframe: "pastMonth", group_by: "video_title", limit: 5, order_by: "views" });
+
+  const results = useData<BreakdownResponse>({
+    type: "breakdown",
+    group_by: "video_title",
+    limit: 5,
+    order_by: "views"
+  });
 
   useEffect(() => {
-    if (data) {
+    if (results) {
       continueRender(handle)
     }
-  }, [data, handle]);
+  }, [results, handle]);
 
   return (
     <div
@@ -45,10 +51,10 @@ export const VideoTitles: React.FC = () => {
       className="left-10"
     >
 
-      {data && (
+      {results && (
         <>
           <div className="grid grid-cols-5">
-            {data.data.map(video_title => (
+            {results[0].data.map(video_title => (
               <>
                 <Stat>
                   <Value>{new Intl.NumberFormat().format(video_title.views)}</Value>
@@ -59,7 +65,7 @@ export const VideoTitles: React.FC = () => {
           </div>
 
           <DateRange>
-            From {format(new Date(data.timeframe[0] * 1000), 'MM/dd/yyyy')} to {format(new Date(data.timeframe[1] * 1000), 'MM/dd/yyyy')}
+            From {format(new Date(results[0].timeframe[0] * 1000), 'MM/dd/yyyy')} to {format(new Date(results[0].timeframe[1] * 1000), 'MM/dd/yyyy')}
           </DateRange>
         </>
       )}
