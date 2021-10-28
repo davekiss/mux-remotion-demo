@@ -3,6 +3,7 @@ import MuxLogo from './Elements/MuxLogo';
 import { Title } from './Elements/Title';
 import { Stats } from './Elements/Stats';
 import { Devices } from './Elements/Devices';
+import { Countries } from './Elements/Countries';
 import { VideoTitles } from './Elements/VideoTitles';
 
 export const Timeline: React.FC<{
@@ -42,6 +43,9 @@ export const Timeline: React.FC<{
         </Sequence>
         <Sequence from={transitionStart + 460} durationInFrames={180}>
           <VideoTitles />
+        </Sequence>
+        <Sequence from={transitionStart + 640} durationInFrames={180}>
+          <Countries />
         </Sequence>
       </div>
     </div>

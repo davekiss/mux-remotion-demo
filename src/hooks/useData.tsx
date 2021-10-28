@@ -1,7 +1,7 @@
 import * as React from "react";
 import { subMonths, getUnixTime } from 'date-fns'
 
-type GroupBy = "viewer_device_category" | "video_title"
+type GroupBy = "viewer_device_category" | "video_title" | "country"
 type OrderBy = "views"
 type DataType = "overall" | "breakdown"
 
