@@ -2,7 +2,6 @@ import "./style.css";
 
 import { Composition } from 'remotion';
 import { Timeline } from './Timeline';
-import { Subtitle } from './Elements/Subtitle';
 import { Title } from './Elements/Title';
 import { Stats } from './Elements/Stats';
 import { Devices } from './Elements/Devices';
