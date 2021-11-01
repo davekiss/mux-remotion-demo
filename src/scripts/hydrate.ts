@@ -91,13 +91,17 @@ const fetchData = async (type: DataType, querystring: string) => {
 }
 
 const hydrate = async () => {
-  await fs.mkdir("./data");
+  try {
+    await fs.mkdir("./src/data");
+  } catch (e) {
+    // directory already exists
+  }
 
   await Promise.all(
     REQUESTS.map(async ({ type, group_by, limit, order_by, outputFilename }) => {
       const querystring = type === "breakdown" ? `&group_by=${group_by}&limit=${limit}&order_by=${order_by}` : "";
       const response = await fetchData(type, querystring);
-      await fs.writeFile(`./data/${outputFilename}`, JSON.stringify(response));
+      await fs.writeFile(`./src/data/${outputFilename}`, JSON.stringify(response));
     }))
 }
 
