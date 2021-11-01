@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import { interpolate, useCurrentFrame, continueRender, delayRender, useVideoConfig, spring } from 'remotion';
+import React from 'react'
+import { interpolate, useCurrentFrame, useVideoConfig, spring } from 'remotion';
 import { COLOR_1 } from './config';
 import { format } from 'date-fns'
-import useData, { OverallResponse } from "../hooks/useData"
+import data from "../data/overall.json"
 
 import TrendingUp from '../components/icons/TrendingUp';
 import TrendingDown from '../components/icons/TrendingDown';
@@ -53,30 +53,6 @@ const Trend = ({ previousMonthValue, pastMonthValue }: { previousMonthValue: num
 export const Stats: React.FC = () => {
   const frame = useCurrentFrame();
   const opacity = interpolate(frame, [0, 30], [0, 1]);
-  const [handle] = useState(() => delayRender())
-
-  const videoConfig = useVideoConfig();
-
-  const y = spring({
-    frame,
-    from: 100,
-    to: 0,
-    fps: videoConfig.fps,
-    config: {
-      stiffness: 100,
-    },
-  });
-
-  const results = useData<OverallResponse>({
-    type: "overall",
-  });
-
-
-  useEffect(() => {
-    if (results) {
-      continueRender(handle)
-    }
-  }, [results, handle]);
 
   return (
     <div
@@ -90,22 +66,18 @@ export const Stats: React.FC = () => {
       }}
       className="left-10"
     >
-      {results && (
-        <>
-          <Stat>
-            <Value>{formatNumber(results[0].data.total_views)}</Value>
-            <Label>total views</Label>
-            <Trend pastMonthValue={results[0].data.total_views} previousMonthValue={results[1].data.total_views} />
-          </Stat>
-          <Stat>
-            <Value>{formatNumber(results[0].data.total_watch_time)}</Value>
-            <Label>seconds of video watched</Label>
-          </Stat>
-          <DateRange>
-            From {format(new Date(results[0].timeframe[0] * 1000), 'MM/dd/yyyy')} to {format(new Date(results[0].timeframe[1] * 1000), 'MM/dd/yyyy')}
-          </DateRange>
-        </>
-      )}
+      <Stat>
+        <Value>{formatNumber(data[0].data.total_views)}</Value>
+        <Label>total views</Label>
+        <Trend pastMonthValue={data[0].data.total_views} previousMonthValue={data[1].data.total_views} />
+      </Stat>
+      <Stat>
+        <Value>{formatNumber(data[0].data.total_watch_time)}</Value>
+        <Label>seconds of video watched</Label>
+      </Stat>
+      <DateRange>
+        From {format(new Date(data[0].timeframe[0] * 1000), 'MM/dd/yyyy')} to {format(new Date(data[0].timeframe[1] * 1000), 'MM/dd/yyyy')}
+      </DateRange>
     </div>
   );
 };

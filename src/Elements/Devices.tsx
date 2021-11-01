@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import { interpolate, useCurrentFrame, continueRender, delayRender } from 'remotion';
+import React from 'react'
+import { interpolate, useCurrentFrame } from 'remotion';
 import { COLOR_1 } from './config';
 import { format } from 'date-fns'
-import useData, { BreakdownResponse } from "../hooks/useData"
+import data from "../data/views_by_device.json"
 
 const Stat = ({ children }: { children: React.ReactNode }) => (
   <div className="mb-12">{children}</div>
@@ -23,20 +23,6 @@ const DateRange = ({ children }: { children: React.ReactNode }) => (
 export const Devices: React.FC = () => {
   const frame = useCurrentFrame();
   const opacity = interpolate(frame, [0, 30], [0, 1]);
-  const [handle] = useState(() => delayRender())
-
-  const results = useData<BreakdownResponse>({
-    type: "breakdown",
-    group_by: "viewer_device_category",
-    limit: 5,
-    order_by: "views"
-  });
-
-  useEffect(() => {
-    if (results) {
-      continueRender(handle)
-    }
-  }, [results, handle]);
 
   return (
     <div
@@ -50,25 +36,20 @@ export const Devices: React.FC = () => {
       }}
       className="left-10"
     >
+      <div className="grid grid-cols-5">
+        {data[0].data.map(device => (
+          <>
+            <Stat>
+              <Value>{new Intl.NumberFormat().format(device.views)}</Value>
+              <Label>total views on {device.field}</Label>
+            </Stat>
+          </>
+        ))}
+      </div>
 
-      {results && (
-        <>
-          <div className="grid grid-cols-5">
-            {results[0].data.map(device => (
-              <>
-                <Stat>
-                  <Value>{new Intl.NumberFormat().format(device.views)}</Value>
-                  <Label>total views on {device.field}</Label>
-                </Stat>
-              </>
-            ))}
-          </div>
-
-          <DateRange>
-            From {format(new Date(results[0].timeframe[0] * 1000), 'MM/dd/yyyy')} to {format(new Date(results[0].timeframe[1] * 1000), 'MM/dd/yyyy')}
-          </DateRange>
-        </>
-      )}
+      <DateRange>
+        From {format(new Date(data[0].timeframe[0] * 1000), 'MM/dd/yyyy')} to {format(new Date(data[0].timeframe[1] * 1000), 'MM/dd/yyyy')}
+      </DateRange>
     </div>
   );
 };
