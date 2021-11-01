@@ -5,7 +5,7 @@
  * delete this file.
  */
 
-import {bundle} from '@remotion/bundler';
+import { bundle } from '@remotion/bundler';
 import {
 	getCompositions,
 	renderFrames,
@@ -18,7 +18,7 @@ import path from 'path';
 
 const app = express();
 const port = process.env.PORT || 8000;
-const compositionId = 'HelloWorld';
+const compositionId = 'Timeline';
 
 const cache = new Map<string, string>();
 
@@ -36,7 +36,7 @@ app.get('/', async (req, res) => {
 			return;
 		}
 		const bundled = await bundle(path.join(__dirname, './src/index.tsx'));
-		const comps = await getCompositions(bundled, {inputProps: req.query});
+		const comps = await getCompositions(bundled, { inputProps: req.query });
 		const video = comps.find((c) => c.id === compositionId);
 		if (!video) {
 			throw new Error(`No video called ${compositionId}`);
@@ -46,7 +46,7 @@ app.get('/', async (req, res) => {
 		const tmpDir = await fs.promises.mkdtemp(
 			path.join(os.tmpdir(), 'remotion-')
 		);
-		const {assetsInfo} = await renderFrames({
+		const { assetsInfo } = await renderFrames({
 			config: video,
 			webpackBundle: bundled,
 			onStart: () => console.log('Rendering frames...'),
