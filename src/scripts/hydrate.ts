@@ -7,7 +7,8 @@ import { subMonths, getUnixTime } from 'date-fns'
 import axios from "axios";
 
 type GroupBy = "viewer_device_category" | "video_title" | "country"
-type OrderBy = "views"
+type OrderBy = "views" | "playing_time"
+type OrderDirection = "asc" | "desc"
 type DataType = "overall" | "breakdown"
 
 type Request = {
@@ -16,6 +17,7 @@ type Request = {
   group_by?: GroupBy;
   order_by?: OrderBy;
   limit?: number;
+  order_direction?: OrderDirection;
 }
 
 type Breakdown = {
@@ -72,6 +74,14 @@ const REQUESTS: Request[] = [
     group_by: "viewer_device_category",
     order_by: "views",
     limit: 5,
+  },
+  {
+    type: "breakdown",
+    outputFilename: "playing_time_by_title.json",
+    group_by: "video_title",
+    order_by: "playing_time",
+    limit: 5,
+    order_direction: "asc"
   }
 ];
 
@@ -98,8 +108,8 @@ const hydrate = async () => {
   }
 
   await Promise.all(
-    REQUESTS.map(async ({ type, group_by, limit, order_by, outputFilename }) => {
-      const querystring = type === "breakdown" ? `&group_by=${group_by}&limit=${limit}&order_by=${order_by}` : "";
+    REQUESTS.map(async ({ type, group_by, limit, order_by, order_direction = "desc", outputFilename }) => {
+      const querystring = type === "breakdown" ? `&group_by=${group_by}&limit=${limit}&order_by=${order_by}&order_direction=${order_direction}` : "";
       const response = await fetchData(type, querystring);
       await fs.writeFile(`./src/data/${outputFilename}`, JSON.stringify(response));
     }))
