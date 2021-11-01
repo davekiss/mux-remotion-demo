@@ -7,7 +7,8 @@
 		"build": "remotion render src/index.tsx Timeline out/video.mp4",
 		"upgrade": "remotion upgrade",
 		"server": "ts-node server.tsx",
-		"test": "eslint src --ext ts,tsx,js,jsx && tsc"
+		"test": "eslint src --ext ts,tsx,js,jsx && tsc",
+		"hydrate": "ts-node ./src/scripts/hydrate.ts"
 	},
 	"repository": {},
 	"license": "UNLICENSED",
@@ -21,6 +22,7 @@
 		"@types/react": "^17.0.0",
 		"autoprefixer": "^10.3.7",
 		"date-fns": "^2.25.0",
+		"dotenv": "^10.0.0",
 		"eslint": "^7.15.0",
 		"express": "^4.17.1",
 		"postcss": "^8.3.11",
@@ -33,5 +35,8 @@
 		"tailwindcss": "^2.2.17",
 		"ts-node": "^9.1.1",
 		"typescript": "4.4.2"
+	},
+	"devDependencies": {
+		"axios": "^0.24.0"
 	}
 }
