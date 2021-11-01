@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { interpolate, useCurrentFrame, continueRender, delayRender } from 'remotion';
 import { COLOR_1 } from './config';
-import useData, { BreakdownResponse } from "../hooks/useData"
 import { format } from 'date-fns'
+import useData, { BreakdownResponse } from "../hooks/useData"
 
 const Stat = ({ children }: { children: React.ReactNode }) => (
   <div className="mb-12">{children}</div>
@@ -20,14 +20,14 @@ const DateRange = ({ children }: { children: React.ReactNode }) => (
   <div className="text-gray-600 text-2xl tracking-wide">{children}</div>
 )
 
-export const VideoTitles: React.FC = () => {
+export const Countries: React.FC = () => {
   const frame = useCurrentFrame();
   const opacity = interpolate(frame, [0, 30], [0, 1]);
   const [handle] = useState(() => delayRender())
 
   const results = useData<BreakdownResponse>({
     type: "breakdown",
-    group_by: "video_title",
+    group_by: "country",
     limit: 5,
     order_by: "views"
   });
@@ -54,11 +54,11 @@ export const VideoTitles: React.FC = () => {
       {results && (
         <>
           <div className="grid grid-cols-5">
-            {results[0].data.map(video_title => (
+            {results[0].data.map(country => (
               <>
                 <Stat>
-                  <Value>{new Intl.NumberFormat().format(video_title.views)}</Value>
-                  <Label>{video_title.field}</Label>
+                  <Value>{new Intl.NumberFormat().format(country.views)}</Value>
+                  <Label>total views in {country.field}</Label>
                 </Stat>
               </>
             ))}

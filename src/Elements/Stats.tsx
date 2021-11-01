@@ -1,13 +1,11 @@
-import React, { useEffect, useState, useCallback } from 'react'
-import { interpolate, useCurrentFrame, continueRender, delayRender } from 'remotion';
+import React, { useEffect, useState } from 'react'
+import { interpolate, useCurrentFrame, continueRender, delayRender, useVideoConfig, spring } from 'remotion';
 import { COLOR_1 } from './config';
-import useTimeframes from "../hooks/useTimeframes"
 import { format } from 'date-fns'
+import useData, { OverallResponse } from "../hooks/useData"
 
-type OverallViewsResponse = {
-  data: { total_watch_time: number; total_views: number; }
-  timeframe: number[];
-}
+import TrendingUp from '../components/icons/TrendingUp';
+import TrendingDown from '../components/icons/TrendingDown';
 
 const Stat = ({ children }: { children: React.ReactNode }) => (
   <div className="mb-12">{children}</div>
@@ -25,29 +23,60 @@ const DateRange = ({ children }: { children: React.ReactNode }) => (
   <div className="text-gray-600 text-2xl tracking-wide">{children}</div>
 )
 
+const formatNumber = (i: number) => new Intl.NumberFormat().format(i)
+
+const Trend = ({ previousMonthValue, pastMonthValue }: { previousMonthValue: number; pastMonthValue: number; }) => {
+  const frame = useCurrentFrame();
+  const videoConfig = useVideoConfig();
+
+  const y = spring({
+    frame,
+    from: 100,
+    to: 0,
+    fps: videoConfig.fps,
+    config: {
+      stiffness: 100,
+    },
+  });
+
+  const delta = ((1 - previousMonthValue / pastMonthValue) * 100).toFixed(1);
+  const isTrendingUp = pastMonthValue > previousMonthValue
+  const ChartIcon = isTrendingUp ? TrendingUp : TrendingDown
+
+  return (
+    <div className={`text-3xl flex items-center ${isTrendingUp ? "text-green-700" : "text-red-700"}`} style={{ transform: `translateY(${y}px)` }}>
+      <ChartIcon /> <span className="ml-4">{delta}% from {formatNumber(previousMonthValue)}</span>
+    </div>
+  )
+}
+
 export const Stats: React.FC = () => {
   const frame = useCurrentFrame();
   const opacity = interpolate(frame, [0, 30], [0, 1]);
-  const timeframes = useTimeframes();
-
-  const [data, setData] = useState<OverallViewsResponse | null>(null)
   const [handle] = useState(() => delayRender())
 
-  const fetchData = useCallback(async () => {
-    const headers = new Headers();
-    const username = process.env.MUX_PUBLIC_KEY;
-    const password = process.env.MUX_SECRET_KEY;
-    headers.set('Authorization', 'Basic ' + btoa(username + ":" + password));
+  const videoConfig = useVideoConfig();
 
-    const response = await fetch(`https://api.mux.com/data/v1/metrics/views/overall?${timeframes.pastMonthQuery}`, { headers })
-    const json = await response.json() as OverallViewsResponse
-    setData(json)
-    continueRender(handle)
-  }, [handle]);
+  const y = spring({
+    frame,
+    from: 100,
+    to: 0,
+    fps: videoConfig.fps,
+    config: {
+      stiffness: 100,
+    },
+  });
+
+  const results = useData<OverallResponse>({
+    type: "overall",
+  });
+
 
   useEffect(() => {
-    fetchData()
-  }, [fetchData]);
+    if (results) {
+      continueRender(handle)
+    }
+  }, [results, handle]);
 
   return (
     <div
@@ -61,19 +90,19 @@ export const Stats: React.FC = () => {
       }}
       className="left-10"
     >
-
-      {data && (
+      {results && (
         <>
           <Stat>
-            <Value>{new Intl.NumberFormat().format(data.data.total_views)}</Value>
+            <Value>{formatNumber(results[0].data.total_views)}</Value>
             <Label>total views</Label>
+            <Trend pastMonthValue={results[0].data.total_views} previousMonthValue={results[1].data.total_views} />
           </Stat>
           <Stat>
-            <Value>{new Intl.NumberFormat().format(data.data.total_watch_time)}</Value>
+            <Value>{formatNumber(results[0].data.total_watch_time)}</Value>
             <Label>seconds of video watched</Label>
           </Stat>
           <DateRange>
-            From {format(new Date(data.timeframe[0] * 1000), 'MM/dd/yyyy')} to {format(new Date(data.timeframe[1] * 1000), 'MM/dd/yyyy')}
+            From {format(new Date(results[0].timeframe[0] * 1000), 'MM/dd/yyyy')} to {format(new Date(results[0].timeframe[1] * 1000), 'MM/dd/yyyy')}
           </DateRange>
         </>
       )}
