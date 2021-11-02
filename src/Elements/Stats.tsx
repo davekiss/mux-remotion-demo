@@ -54,6 +54,25 @@ export const Stats: React.FC = () => {
   const frame = useCurrentFrame();
   const opacity = interpolate(frame, [0, 30], [0, 1]);
 
+  const { fps } = useVideoConfig();
+  const driver = spring({
+    frame,
+    fps,
+    config: {
+      damping: 40,
+      stiffness: 70,
+      overshootClamping: true
+    }
+  });
+
+  const totalViews = Math.ceil(interpolate(driver, [0, 1], [0, data[0].data.total_views], {
+    extrapolateRight: "clamp",
+  }))
+
+  const totalWatchTime = Math.ceil(interpolate(driver, [0, 1], [0, data[0].data.total_watch_time], {
+    extrapolateRight: "clamp",
+  }))
+
   return (
     <div
       style={{
@@ -67,12 +86,12 @@ export const Stats: React.FC = () => {
       className="left-10"
     >
       <Stat>
-        <Value>{formatNumber(data[0].data.total_views)}</Value>
+        <Value>{formatNumber(totalViews)}</Value>
         <Label>total views</Label>
         <Trend pastMonthValue={data[0].data.total_views} previousMonthValue={data[1].data.total_views} />
       </Stat>
       <Stat>
-        <Value>{formatNumber(data[0].data.total_watch_time)}</Value>
+        <Value>{formatNumber(totalWatchTime)}</Value>
         <Label>seconds of video watched</Label>
       </Stat>
       <DateRange>
