@@ -43,8 +43,8 @@ type OverallResponse = {
   timeframe: number[];
 }
 
-const username = process.env.MUX_PUBLIC_KEY;
-const password = process.env.MUX_SECRET_KEY;
+const username = process.env.MUX_TOKEN_ID;
+const password = process.env.MUX_TOKEN_SECRET;
 
 const headers = {
   'Authorization': 'Basic ' + Buffer.from(username + ":" + password).toString('base64')
