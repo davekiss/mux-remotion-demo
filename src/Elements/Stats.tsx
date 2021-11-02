@@ -50,6 +50,10 @@ const Trend = ({ previousMonthValue, pastMonthValue }: { previousMonthValue: num
   )
 }
 
+const getCurrentValue = (spring: number, endValue: number) => Math.ceil(interpolate(spring, [0, 1], [0, endValue], {
+  extrapolateRight: "clamp",
+}))
+
 export const Stats: React.FC = () => {
   const frame = useCurrentFrame();
   const opacity = interpolate(frame, [0, 30], [0, 1]);
@@ -65,13 +69,8 @@ export const Stats: React.FC = () => {
     }
   });
 
-  const totalViews = Math.ceil(interpolate(driver, [0, 1], [0, data[0].data.total_views], {
-    extrapolateRight: "clamp",
-  }))
-
-  const totalWatchTime = Math.ceil(interpolate(driver, [0, 1], [0, data[0].data.total_watch_time], {
-    extrapolateRight: "clamp",
-  }))
+  const totalViews = getCurrentValue(driver, data[0].data.total_views);
+  const totalWatchTime = getCurrentValue(driver, data[0].data.total_watch_time);
 
   return (
     <div
