@@ -14,7 +14,7 @@ const Value = ({ children }: { children: React.ReactNode }) => (
 )
 
 const Label = ({ children }: { children: React.ReactNode }) => (
-  <div className="font-semibold text-gray-500 text-5xl uppercase">{children}</div>
+  <div className="text-gray-500 text-4xl">{children}</div>
 )
 
 const DateRange = ({ children }: { children: React.ReactNode }) => (
@@ -30,14 +30,14 @@ export const VideoTitles: React.FC = () => {
       style={{
         fontFamily: 'Helvetica, Arial',
         position: 'absolute',
-        bottom: 140,
+        bottom: 80,
         width: '100%',
         color: COLOR_1,
         opacity
       }}
-      className="left-10"
+      className="p-10"
     >
-      <div className="grid grid-cols-5">
+      <div className="grid grid-cols-5 gap-20">
         {data[0].data.map(video_title => (
           <>
             <Stat>
