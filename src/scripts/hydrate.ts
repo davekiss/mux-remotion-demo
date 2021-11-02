@@ -51,9 +51,12 @@ const headers = {
 }
 
 const REQUESTS: Request[] = [
+  // Overall video viewership stats
   {
     type: "overall", outputFilename: "overall.json"
   },
+
+  // Number of views by video title
   {
     type: "breakdown",
     outputFilename: "views_by_title.json",
