@@ -63,8 +63,7 @@ export const Stats: React.FC = () => {
     frame,
     fps,
     config: {
-      damping: 40,
-      stiffness: 70,
+      damping: 60,
       overshootClamping: true
     }
   });
