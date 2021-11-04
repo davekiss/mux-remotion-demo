@@ -67,6 +67,8 @@ const REQUESTS: Request[] = [
     order_by: "views",
     limit: 10,
   },
+
+  // Uniquer viewers by country
   {
     metric: "unique_viewers",
     type: "breakdown",
@@ -75,6 +77,8 @@ const REQUESTS: Request[] = [
     order_by: "value",
     limit: 50,
   },
+
+  // Uniquer viewers by browser
   {
     metric: "unique_viewers",
     type: "breakdown",
@@ -83,6 +87,8 @@ const REQUESTS: Request[] = [
     order_by: "value",
     limit: 10,
   },
+
+  // Number of views by device
   {
     metric: "views",
     type: "breakdown",
@@ -91,6 +97,8 @@ const REQUESTS: Request[] = [
     order_by: "views",
     limit: 5,
   },
+
+  // Play time by title
   {
     metric: "views",
     type: "breakdown",
