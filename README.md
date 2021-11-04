@@ -12,6 +12,7 @@ This demo uses `date-fns` to help easily calculate timeframes for which we'd lik
 
 - `Composition` elements defined in `Video.tsx` will be added to the media library in the app sidebar.
 - Setting a `durationInFrames` prop on the `Sequence` component in the `Timeline` specifies how long the component should display for.
+- Pin the version of Remotion
 
 ## Commands
 
