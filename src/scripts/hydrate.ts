@@ -6,6 +6,7 @@ import { subMonths, getUnixTime } from 'date-fns'
 
 import axios from "axios";
 
+type Metric = "views" | "unique_viewers"
 type GroupBy = "viewer_device_category" | "video_title" | "country"
 type OrderBy = "views" | "playing_time"
 type OrderDirection = "asc" | "desc"
