@@ -7,7 +7,7 @@ import { subMonths, getUnixTime } from 'date-fns'
 import axios from "axios";
 
 type Metric = "views" | "unique_viewers"
-type GroupBy = "viewer_device_category" | "video_title" | "country"
+type GroupBy = "viewer_device_category" | "video_title" | "country" | "browser"
 type OrderBy = "views" | "playing_time" | "field" | "value"
 type OrderDirection = "asc" | "desc"
 type DataType = "overall" | "breakdown"
@@ -74,6 +74,14 @@ const REQUESTS: Request[] = [
     group_by: "country",
     order_by: "value",
     limit: 50,
+  },
+  {
+    metric: "unique_viewers",
+    type: "breakdown",
+    outputFilename: "unique_viewers_by_browser.json",
+    group_by: "browser",
+    order_by: "value",
+    limit: 10,
   },
   {
     metric: "views",
