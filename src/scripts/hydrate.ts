@@ -8,13 +8,14 @@ import axios from "axios";
 
 type Metric = "views" | "unique_viewers"
 type GroupBy = "viewer_device_category" | "video_title" | "country"
-type OrderBy = "views" | "playing_time"
+type OrderBy = "views" | "playing_time" | "field" | "value"
 type OrderDirection = "asc" | "desc"
 type DataType = "overall" | "breakdown"
 
 type Request = {
   type: DataType;
   outputFilename: string;
+  metric: Metric;
   group_by?: GroupBy;
   order_by?: OrderBy;
   limit?: number;
@@ -54,11 +55,12 @@ const headers = {
 const REQUESTS: Request[] = [
   // Overall video viewership stats
   {
-    type: "overall", outputFilename: "overall.json"
+    metric: "views", type: "overall", outputFilename: "overall.json"
   },
 
   // Number of views by video title
   {
+    metric: "views",
     type: "breakdown",
     outputFilename: "views_by_title.json",
     group_by: "video_title",
@@ -66,13 +68,15 @@ const REQUESTS: Request[] = [
     limit: 10,
   },
   {
+    metric: "unique_viewers",
     type: "breakdown",
-    outputFilename: "views_by_country.json",
+    outputFilename: "unique_viewers_by_country.json",
     group_by: "country",
-    order_by: "views",
-    limit: 5,
+    order_by: "value",
+    limit: 50,
   },
   {
+    metric: "views",
     type: "breakdown",
     outputFilename: "views_by_device.json",
     group_by: "viewer_device_category",
@@ -80,6 +84,7 @@ const REQUESTS: Request[] = [
     limit: 5,
   },
   {
+    metric: "views",
     type: "breakdown",
     outputFilename: "playing_time_by_title.json",
     group_by: "video_title",
@@ -95,26 +100,24 @@ const two_months_ago = getUnixTime(subMonths(now, 2));
 const pastMonthTimeframe = `timeframe[]=${one_month_ago}&timeframe[]=${getUnixTime(now)}`;
 const previousMonthTimeframe = `timeframe[]=${two_months_ago}&timeframe[]=${one_month_ago}`
 
-const fetchData = async (type: DataType, querystring: string) => {
+const fetchData = async (metric: Metric, type: DataType, querystring: string) => {
   const [pastMonthResponse, previousMonthResponse] = await Promise.all([
-    axios.get(`https://api.mux.com/data/v1/metrics/views/${type}?${pastMonthTimeframe}${querystring}`, { headers }),
-    axios.get(`https://api.mux.com/data/v1/metrics/views/${type}?${previousMonthTimeframe}${querystring}`, { headers })
+    axios.get(`https://api.mux.com/data/v1/metrics/${metric}/${type}?${pastMonthTimeframe}${querystring}`, { headers }),
+    axios.get(`https://api.mux.com/data/v1/metrics/${metric}/${type}?${previousMonthTimeframe}${querystring}`, { headers })
   ])
 
   return [pastMonthResponse.data, previousMonthResponse.data];
 }
 
 const hydrate = async () => {
-  try {
-    await fs.mkdir("./src/data");
-  } catch (e) {
-    // directory already exists
-  }
+  const dir = "./src/data";
+  await fs.rm(dir, { recursive: true, force: true });
+  await fs.mkdir("./src/data");
 
   await Promise.all(
-    REQUESTS.map(async ({ type, group_by, limit, order_by, order_direction = "desc", outputFilename }) => {
+    REQUESTS.map(async ({ type, metric, group_by, limit, order_by, order_direction = "desc", outputFilename }) => {
       const querystring = type === "breakdown" ? `&group_by=${group_by}&limit=${limit}&order_by=${order_by}&order_direction=${order_direction}` : "";
-      const response = await fetchData(type, querystring);
+      const response = await fetchData(metric, type, querystring);
       await fs.writeFile(`./src/data/${outputFilename}`, JSON.stringify(response));
     }))
 }
