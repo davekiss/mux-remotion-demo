@@ -6,6 +6,8 @@ import { Title } from './Elements/Title';
 import { Overall } from './Elements/Overall';
 import { Devices } from './Elements/Devices';
 import { Countries } from './Elements/Countries';
+import { Browsers } from './Elements/Browsers';
+import { VideoTitles } from './Elements/VideoTitles';
 
 export const RemotionVideo: React.FC = () => {
   return (
@@ -57,6 +59,24 @@ export const RemotionVideo: React.FC = () => {
       <Composition
         id="Countries"
         component={Countries}
+        durationInFrames={180}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
+
+      <Composition
+        id="Browsers"
+        component={Browsers}
+        durationInFrames={180}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
+
+      <Composition
+        id="VideoTitles"
+        component={VideoTitles}
         durationInFrames={180}
         fps={30}
         width={1920}
