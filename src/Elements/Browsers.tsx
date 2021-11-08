@@ -33,8 +33,6 @@ export const Browsers: React.FC = () => {
   const frame = useCurrentFrame();
   const opacity = interpolate(frame, [0, 30], [0, 1]);
 
-  console.log(data[0].data);
-
   return (
     <div
       style={{
