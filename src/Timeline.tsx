@@ -5,6 +5,7 @@ import { Stats } from './Elements/Stats';
 import { Devices } from './Elements/Devices';
 import { Countries } from './Elements/Countries';
 import { VideoTitles } from './Elements/VideoTitles';
+import { Browsers } from './Elements/Browsers';
 
 export const Timeline: React.FC<{
   titleText: string;
@@ -46,6 +47,9 @@ export const Timeline: React.FC<{
         </Sequence>
         <Sequence from={transitionStart + 640} durationInFrames={180}>
           <Countries />
+        </Sequence>
+        <Sequence from={transitionStart + 820} durationInFrames={180}>
+          <Browsers />
         </Sequence>
       </div>
     </div>
