@@ -54,6 +54,7 @@ export const Browsers: React.FC = () => {
           return (
             <div key={row.field}>
               <Img src={icon} className="mb-4" />
+              <p className="text-2xl">{row.field}</p>
               <p className="text-2xl">{row.value} unique viewers</p>
             </div>
           )
