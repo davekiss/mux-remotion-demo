@@ -85,7 +85,7 @@ const REQUESTS: Request[] = [
     outputFilename: "unique_viewers_by_browser.json",
     group_by: "browser",
     order_by: "value",
-    limit: 10,
+    limit: 20,
   },
 
   // Number of views by device

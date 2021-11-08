@@ -7,6 +7,8 @@ import Safari from '../../node_modules/browser-logos/src/safari/safari_256x256.p
 import SafariIOS from '../../node_modules/browser-logos/src/safari-ios/safari-ios_256x256.png';
 import Edge from '../../node_modules/browser-logos/src/edge/edge_256x256.png';
 import Opera from '../../node_modules/browser-logos/src/opera/opera_256x256.png';
+import AndroidWebview from '../../node_modules/browser-logos/src/android-webview/android-webview_256x256.png';
+import SamsungInternet from '../../node_modules/browser-logos/src/samsung-internet/samsung-internet_256x256.png';
 import { Img } from "remotion";
 
 import data from "../data/unique_viewers_by_browser.json"
@@ -15,9 +17,23 @@ const DateRange = ({ children }: { children: React.ReactNode }) => (
   <div className="text-gray-600 text-2xl tracking-wide">{children}</div>
 )
 
+const LOGO_LOOKUP = {
+  Chrome,
+  Safari,
+  Opera,
+  Edge,
+  Firefox,
+  "Android Browser": AndroidWebview,
+  "Safari Mobile": SafariIOS,
+  "Samsung Internet": SamsungInternet,
+  "Chrome Mobile": Chrome
+}
+
 export const Browsers: React.FC = () => {
   const frame = useCurrentFrame();
   const opacity = interpolate(frame, [0, 30], [0, 1]);
+
+  console.log(data[0].data);
 
   return (
     <div
@@ -28,19 +44,25 @@ export const Browsers: React.FC = () => {
         width: '100%',
         opacity
       }}
-      className="left-10"
+      className="left-0"
     >
-      <Img src={Chrome} />
-      <Img src={Firefox} />
-      <Img src={Safari} />
-      <Img src={Edge} />
-      <Img src={Opera} />
-      <Img src={SafariIOS} />
+
+      <div className="grid grid-cols-5">
+        {data[0].data.map(row => {
+          const icon = LOGO_LOOKUP[row.field];
+          if (!icon) return;
+          return (
+            <div key={row.field}>
+              <Img src={icon} className="mb-4" />
+              <p className="text-2xl">{row.value} unique viewers</p>
+            </div>
+          )
+        })}
+      </div>
 
       <DateRange>
         From {format(new Date(data[0].timeframe[0] * 1000), 'MM/dd/yyyy')} to {format(new Date(data[0].timeframe[1] * 1000), 'MM/dd/yyyy')}
       </DateRange>
-
     </div>
   );
 };
