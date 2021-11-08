@@ -17,7 +17,7 @@ const DateRange = ({ children }: { children: React.ReactNode }) => (
   <div className="text-gray-600 text-2xl tracking-wide">{children}</div>
 )
 
-const LOGO_LOOKUP = {
+const LOGO_LOOKUP: Record<string, string> = {
   Chrome,
   Safari,
   Opera,
