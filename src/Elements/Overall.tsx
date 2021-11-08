@@ -54,7 +54,7 @@ const getCurrentValue = (spring: number, endValue: number) => Math.ceil(interpol
   extrapolateRight: "clamp",
 }))
 
-export const Stats: React.FC = () => {
+export const Overall: React.FC = () => {
   const frame = useCurrentFrame();
   const opacity = interpolate(frame, [0, 30], [0, 1]);
 

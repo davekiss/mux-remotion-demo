@@ -3,7 +3,7 @@ import "./style.css";
 import { Composition } from 'remotion';
 import { Timeline } from './Timeline';
 import { Title } from './Elements/Title';
-import { Stats } from './Elements/Stats';
+import { Overall } from './Elements/Overall';
 import { Devices } from './Elements/Devices';
 import { Countries } from './Elements/Countries';
 
@@ -37,8 +37,8 @@ export const RemotionVideo: React.FC = () => {
       />
 
       <Composition
-        id="Stats"
-        component={Stats}
+        id="Overall"
+        component={Overall}
         durationInFrames={180}
         fps={30}
         width={1920}
