@@ -1,8 +1,9 @@
 import React from 'react'
 import { interpolate, useCurrentFrame } from 'remotion';
-import { COLOR_1 } from './config';
+import { GRAY } from './config';
 import { format } from 'date-fns'
 import data from "../data/views_by_device.json"
+import MuxLogo from './MuxLogo';
 
 const Stat = ({ children }: { children: React.ReactNode }) => (
   <div className="mb-12">{children}</div>
@@ -17,7 +18,11 @@ const Label = ({ children }: { children: React.ReactNode }) => (
 )
 
 const DateRange = ({ children }: { children: React.ReactNode }) => (
-  <div className="text-gray-600 text-2xl tracking-wide">{children}</div>
+  <div style={{ color: GRAY }} className="text-gray-600 text-5xl tracking-wide">{children}</div>
+)
+
+const Title = ({ children }: { children: React.ReactNode }) => (
+  <h1 className="text-gray-600 text-5xl ml-20 flex-1" style={{ color: GRAY, fontFamily: "Akkurat,Helvetica Neue,Helvetica,Arial,sans-serif" }}>{children}</h1>
 )
 
 export const Devices: React.FC = () => {
@@ -27,15 +32,19 @@ export const Devices: React.FC = () => {
   return (
     <div
       style={{
-        fontFamily: 'Helvetica, Arial',
-        position: 'absolute',
-        bottom: 140,
-        width: '100%',
-        color: COLOR_1,
-        opacity
+        opacity,
+        gridTemplateRows: "20% 80%"
       }}
-      className="left-10"
+      className="absolute inset-0 grid"
     >
+      <div className="p-20 flex items-center">
+        <MuxLogo />
+        <Title>Views by device</Title>
+
+        <DateRange>
+          {format(new Date(data[0].timeframe[0] * 1000), 'MM/dd')} – {format(new Date(data[0].timeframe[1] * 1000), 'MM/dd yyyy')}
+        </DateRange>
+      </div>
       <div className="grid grid-cols-5">
         {data[0].data.map(device => (
           <>
@@ -47,9 +56,7 @@ export const Devices: React.FC = () => {
         ))}
       </div>
 
-      <DateRange>
-        From {format(new Date(data[0].timeframe[0] * 1000), 'MM/dd/yyyy')} to {format(new Date(data[0].timeframe[1] * 1000), 'MM/dd/yyyy')}
-      </DateRange>
+
     </div>
   );
 };
