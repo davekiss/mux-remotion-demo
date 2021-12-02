@@ -1,6 +1,6 @@
 import React from 'react'
 import { interpolate, useCurrentFrame } from 'remotion';
-import { COLOR_1 } from './config';
+import { COLOR_1, gradients } from './config';
 import { format } from 'date-fns'
 
 import data from "../data/views_by_title.json"
@@ -28,14 +28,12 @@ export const VideoTitles: React.FC = () => {
   return (
     <div
       style={{
-        fontFamily: 'Helvetica, Arial',
         position: 'absolute',
         bottom: 80,
-        width: '100%',
-        color: COLOR_1,
-        opacity
+        opacity,
+        background: gradients.bluePurple
       }}
-      className="p-10"
+      className="p-10 font-sans"
     >
       <div className="grid grid-cols-5 gap-20">
         {data[0].data.map(video_title => (
