@@ -6,7 +6,7 @@ import data from "../data/views_by_device.json"
 import MuxLogo from './MuxLogo';
 
 const Stat = ({ children }: { children: React.ReactNode }) => (
-  <div className="flex items-center border-t border-gray-900 p-4 relative">{children}</div>
+  <div className="flex items-start border-t border-gray-900 p-4 relative">{children}</div>
 )
 
 // Passing index allows us to cascade the measurement animation
@@ -30,11 +30,11 @@ const Measure = ({ index, value }: { index: number, value: number }) => {
 }
 
 const Value = ({ children }: { children: React.ReactNode }) => (
-  <div className="font-bold flex-1 z-10" style={{ fontSize: `60px` }}>{children}</div>
+  <div className="flex-1 z-10 font-sans" style={{ fontSize: `60px` }}>{children}</div>
 )
 
 const Label = ({ children }: { children: React.ReactNode }) => (
-  <div className="text-gray-500 text-4xl">{children}</div>
+  <div className="text-gray-500 text-4xl font-mono">{children}</div>
 )
 
 const DateRange = ({ children }: { children: React.ReactNode }) => (
@@ -69,13 +69,11 @@ export const Devices: React.FC = () => {
       </div>
       <div className="grid grid-rows-5 p-20" style={{ background: gradients.yellowGreen }}>
         {data[0].data.map((device, i) => (
-          <>
-            <Stat>
-              <Measure index={i} value={(device.views / totalDatasetViews) * 100} />
-              <Value>{new Intl.NumberFormat().format(device.views)}</Value>
-              <Label>{device.field}</Label>
-            </Stat>
-          </>
+          <Stat key={device.value}>
+            <Measure index={i} value={(device.views / totalDatasetViews) * 100} />
+            <Value>{new Intl.NumberFormat().format(device.views)}</Value>
+            <Label>{device.field}</Label>
+          </Stat>
         ))}
       </div>
     </div>
