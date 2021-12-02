@@ -1,16 +1,36 @@
 import React from 'react'
-import { interpolate, useCurrentFrame } from 'remotion';
+import { interpolate, useCurrentFrame, useVideoConfig, spring } from 'remotion';
 import { GRAY, gradients } from './config';
 import { format } from 'date-fns'
 import data from "../data/views_by_device.json"
 import MuxLogo from './MuxLogo';
 
 const Stat = ({ children }: { children: React.ReactNode }) => (
-  <div className="flex items-center border-t border-gray-900 p-4 bg-white">{children}</div>
+  <div className="flex items-center border-t border-gray-900 p-4 relative">{children}</div>
 )
 
+// Passing index allows us to cascade the measurement animation
+const Measure = ({ index, value }: { index: number, value: number }) => {
+  const frame = useCurrentFrame();
+  const videoConfig = useVideoConfig();
+
+  const width = spring({
+    frame: frame - 20 - (index * 8), // delay the starting frame of the animation
+    from: 0,
+    to: value,
+    fps: videoConfig.fps,
+    config: {
+      damping: 60
+    }
+  });
+
+  return (
+    <div className="absolute inset-0 bg-white" style={{ width: `${width}%` }} />
+  )
+}
+
 const Value = ({ children }: { children: React.ReactNode }) => (
-  <div className="font-bold flex-1" style={{ fontSize: `60px` }}>{children}</div>
+  <div className="font-bold flex-1 z-10" style={{ fontSize: `60px` }}>{children}</div>
 )
 
 const Label = ({ children }: { children: React.ReactNode }) => (
@@ -29,6 +49,8 @@ export const Devices: React.FC = () => {
   const frame = useCurrentFrame();
   const opacity = interpolate(frame, [0, 30], [0, 1]);
 
+  const totalDatasetViews = data[0].data.map(d => d.views).reduce((previousValue, currentValue) => previousValue + currentValue);
+
   return (
     <div
       style={{
@@ -46,9 +68,10 @@ export const Devices: React.FC = () => {
         </DateRange>
       </div>
       <div className="grid grid-rows-5 p-20" style={{ background: gradients.yellowGreen }}>
-        {data[0].data.map(device => (
+        {data[0].data.map((device, i) => (
           <>
             <Stat>
+              <Measure index={i} value={(device.views / totalDatasetViews) * 100} />
               <Value>{new Intl.NumberFormat().format(device.views)}</Value>
               <Label>{device.field}</Label>
             </Stat>
