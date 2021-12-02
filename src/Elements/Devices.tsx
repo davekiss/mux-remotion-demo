@@ -42,7 +42,7 @@ const DateRange = ({ children }: { children: React.ReactNode }) => (
 )
 
 const Title = ({ children }: { children: React.ReactNode }) => (
-  <h1 className="text-gray-600 text-5xl ml-20 flex-1" style={{ color: GRAY, fontFamily: "Akkurat,Helvetica Neue,Helvetica,Arial,sans-serif" }}>{children}</h1>
+  <h1 className="text-gray-600 text-5xl ml-20 flex-1 font-sans" style={{ color: GRAY }}>{children}</h1>
 )
 
 export const Devices: React.FC = () => {
