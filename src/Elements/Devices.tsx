@@ -1,20 +1,20 @@
 import React from 'react'
 import { interpolate, useCurrentFrame } from 'remotion';
-import { GRAY } from './config';
+import { GRAY, gradients } from './config';
 import { format } from 'date-fns'
 import data from "../data/views_by_device.json"
 import MuxLogo from './MuxLogo';
 
 const Stat = ({ children }: { children: React.ReactNode }) => (
-  <div className="mb-12">{children}</div>
+  <div className="flex items-center border-t border-gray-900 p-4 bg-white">{children}</div>
 )
 
 const Value = ({ children }: { children: React.ReactNode }) => (
-  <div className="font-bold" style={{ fontSize: `60px` }}>{children}</div>
+  <div className="font-bold flex-1" style={{ fontSize: `60px` }}>{children}</div>
 )
 
 const Label = ({ children }: { children: React.ReactNode }) => (
-  <div className="font-semibold text-gray-500 text-5xl uppercase">{children}</div>
+  <div className="text-gray-500 text-4xl">{children}</div>
 )
 
 const DateRange = ({ children }: { children: React.ReactNode }) => (
@@ -45,18 +45,16 @@ export const Devices: React.FC = () => {
           {format(new Date(data[0].timeframe[0] * 1000), 'MM/dd')} – {format(new Date(data[0].timeframe[1] * 1000), 'MM/dd yyyy')}
         </DateRange>
       </div>
-      <div className="grid grid-cols-5">
+      <div className="grid grid-rows-5 p-20" style={{ background: gradients.yellowGreen }}>
         {data[0].data.map(device => (
           <>
             <Stat>
               <Value>{new Intl.NumberFormat().format(device.views)}</Value>
-              <Label>total views on {device.field}</Label>
+              <Label>{device.field}</Label>
             </Stat>
           </>
         ))}
       </div>
-
-
     </div>
   );
 };
