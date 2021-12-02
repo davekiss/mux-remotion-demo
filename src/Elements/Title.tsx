@@ -23,6 +23,7 @@ export const Title: React.FC<{
         return (
           <span
             key={t}
+            className="font-sans"
             style={{
               color: titleColor,
               marginLeft: 10,
