@@ -1,6 +1,7 @@
 import React from 'react';
 import { interpolate, useCurrentFrame, Img, spring, useVideoConfig } from 'remotion';
 import { format } from 'date-fns';
+import { gradients } from './config';
 import Chrome from '../../node_modules/browser-logos/src/chrome/chrome_256x256.png';
 import Firefox from '../../node_modules/browser-logos/src/firefox/firefox_256x256.png';
 import Safari from '../../node_modules/browser-logos/src/safari/safari_256x256.png';
@@ -30,9 +31,8 @@ const Measure = ({ index, value, percentage }: { index: number, value: number, p
   });
 
   return (
-    <div className="relative w-80 h-80 items-center flex justify-center">
+    <div className="relative w-80 h-80 items-center flex justify-center mb-10">
       <svg className="w-80 h-80 absolute" viewBox="0 0 20 20">
-        <circle r="10" cx="10" cy="10" fill="gray" />
         <circle
           r="5" cx="10" cy="10"
           fill="transparent"
@@ -40,6 +40,7 @@ const Measure = ({ index, value, percentage }: { index: number, value: number, p
           strokeWidth="10"
           strokeDasharray={`calc(${m} * 31.42 / 100) 31.42`}
           transform="rotate(-90) translate(-20)" />
+        <circle r="9.9" cx="10" cy="10" fill="transparent" stroke="black" strokeWidth=".2" />
       </svg>
       <div className="z-10 flex flex-col items-center justify-center">
         <span className="font-sans font-semibold" style={{ fontSize: "80px" }}>{percentage.toFixed(1)}%</span>
@@ -73,7 +74,8 @@ export const Browsers: React.FC = () => {
         position: 'absolute',
         bottom: 10,
         width: '100%',
-        opacity
+        opacity,
+        background: gradients.blueGreen
       }}
       className="left-0"
     >
