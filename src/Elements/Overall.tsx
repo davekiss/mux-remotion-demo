@@ -17,7 +17,7 @@ const Value = ({ children }: { children: React.ReactNode }) => (
 )
 
 const Label = ({ children }: { children: React.ReactNode }) => (
-  <div className="font-semibold text-gray-500 text-5xl uppercase">{children}</div>
+  <div className="font-semibold text-gray-500 text-5xl font-mono">{children}</div>
 )
 
 const Trend = ({ previousMonthValue, pastMonthValue }: { previousMonthValue: number; pastMonthValue: number; }) => {
@@ -39,7 +39,7 @@ const Trend = ({ previousMonthValue, pastMonthValue }: { previousMonthValue: num
   const ChartIcon = isTrendingUp ? TrendingUp : TrendingDown
 
   return (
-    <div className={`text-3xl flex items-center ${isTrendingUp ? "text-green-700" : "text-red-700"}`} style={{ transform: `translateY(${y}px)` }}>
+    <div className={`text-white inline-flex text-3xl px-4 py-2 items-center ${isTrendingUp ? "bg-green-700" : "bg-red-700"}`} style={{ transform: `translateY(${y}px)` }}>
       <ChartIcon /> <span className="ml-4">{delta}% from {formatNumber(previousMonthValue)}</span>
     </div>
   )
