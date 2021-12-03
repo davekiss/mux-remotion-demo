@@ -1,7 +1,8 @@
 import React from 'react';
-import { interpolate, useCurrentFrame, Img, spring, useVideoConfig } from 'remotion';
-import { format } from 'date-fns';
+import { useCurrentFrame, Img, spring, useVideoConfig } from 'remotion';
 import { gradients } from './config';
+import Layout from "../components/Layout";
+
 import Chrome from '../../node_modules/browser-logos/src/chrome/chrome_256x256.png';
 import Firefox from '../../node_modules/browser-logos/src/firefox/firefox_256x256.png';
 import Safari from '../../node_modules/browser-logos/src/safari/safari_256x256.png';
@@ -13,10 +14,6 @@ import SamsungInternet from '../../node_modules/browser-logos/src/samsung-intern
 
 import data from "../data/unique_viewers_by_browser.json"
 import { formatNumber } from '../utils';
-
-const DateRange = ({ children }: { children: React.ReactNode }) => (
-  <div className="text-gray-600 text-2xl tracking-wide">{children}</div>
-)
 
 // Passing index allows us to cascade the measurement animation
 const Measure = ({ index, value, percentage }: { index: number, value: number, percentage: number }) => {
@@ -63,22 +60,10 @@ const LOGO_LOOKUP: Record<string, string> = {
 }
 
 export const Browsers: React.FC = () => {
-  const frame = useCurrentFrame();
-  const opacity = interpolate(frame, [0, 30], [0, 1]);
   const totalDatasetViewers = data[0].data.map(d => d.value).reduce((previousValue, currentValue) => previousValue + currentValue);
 
   return (
-    <div
-      style={{
-        fontFamily: 'Helvetica, Arial',
-        position: 'absolute',
-        bottom: 10,
-        width: '100%',
-        opacity,
-        background: gradients.blueGreen
-      }}
-      className="left-0"
-    >
+    <Layout background={gradients.blueGreen} title="Browser stats" timeframe={data[0].timeframe}>
       <div className="grid grid-cols-5">
         {data[0].data.map((row, i) => {
           const icon = LOGO_LOOKUP[row.field];
@@ -92,10 +77,6 @@ export const Browsers: React.FC = () => {
           )
         })}
       </div>
-
-      <DateRange>
-        From {format(new Date(data[0].timeframe[0] * 1000), 'MM/dd/yyyy')} to {format(new Date(data[0].timeframe[1] * 1000), 'MM/dd/yyyy')}
-      </DateRange>
-    </div>
+    </Layout>
   );
 };

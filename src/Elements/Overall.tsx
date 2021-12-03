@@ -1,9 +1,10 @@
-import React from 'react'
+import React from 'react';
 import { interpolate, useCurrentFrame, useVideoConfig, spring } from 'remotion';
-import { COLOR_1 } from './config';
-import { format } from 'date-fns'
-import data from "../data/overall.json"
+import { gradients } from './config';
+import { formatNumber } from '../utils';
+import data from "../data/overall.json";
 
+import Layout from "../components/Layout";
 import TrendingUp from '../components/icons/TrendingUp';
 import TrendingDown from '../components/icons/TrendingDown';
 
@@ -18,12 +19,6 @@ const Value = ({ children }: { children: React.ReactNode }) => (
 const Label = ({ children }: { children: React.ReactNode }) => (
   <div className="font-semibold text-gray-500 text-5xl uppercase">{children}</div>
 )
-
-const DateRange = ({ children }: { children: React.ReactNode }) => (
-  <div className="text-gray-600 text-2xl tracking-wide">{children}</div>
-)
-
-const formatNumber = (i: number) => new Intl.NumberFormat().format(i)
 
 const Trend = ({ previousMonthValue, pastMonthValue }: { previousMonthValue: number; pastMonthValue: number; }) => {
   const frame = useCurrentFrame();
@@ -56,7 +51,6 @@ const getCurrentValue = (spring: number, endValue: number) => Math.ceil(interpol
 
 export const Overall: React.FC = () => {
   const frame = useCurrentFrame();
-  const opacity = interpolate(frame, [0, 30], [0, 1]);
 
   const { fps } = useVideoConfig();
   const driver = spring({
@@ -72,17 +66,7 @@ export const Overall: React.FC = () => {
   const totalWatchTime = getCurrentValue(driver, data[0].data.total_watch_time);
 
   return (
-    <div
-      style={{
-        fontFamily: 'Helvetica, Arial',
-        position: 'absolute',
-        bottom: 140,
-        width: '100%',
-        color: COLOR_1,
-        opacity
-      }}
-      className="left-10"
-    >
+    <Layout background={gradients.softPink} title="Overall stats" timeframe={data[0].timeframe} >
       <Stat>
         <Value>{formatNumber(totalViews)}</Value>
         <Label>total views</Label>
@@ -92,9 +76,6 @@ export const Overall: React.FC = () => {
         <Value>{formatNumber(totalWatchTime)}</Value>
         <Label>seconds of video watched</Label>
       </Stat>
-      <DateRange>
-        From {format(new Date(data[0].timeframe[0] * 1000), 'MM/dd/yyyy')} to {format(new Date(data[0].timeframe[1] * 1000), 'MM/dd/yyyy')}
-      </DateRange>
-    </div>
+    </Layout>
   );
 };

@@ -1,9 +1,8 @@
-import React from 'react'
-import { interpolate, useCurrentFrame } from 'remotion';
-import { COLOR_1, gradients } from './config';
-import { format } from 'date-fns'
+import React from 'react';
+import { gradients } from './config';
+import Layout from "../components/Layout";
 
-import data from "../data/views_by_title.json"
+import data from "../data/views_by_title.json";
 
 const Stat = ({ children }: { children: React.ReactNode }) => (
   <div className="mb-12">{children}</div>
@@ -17,24 +16,9 @@ const Label = ({ children }: { children: React.ReactNode }) => (
   <div className="text-gray-500 text-4xl">{children}</div>
 )
 
-const DateRange = ({ children }: { children: React.ReactNode }) => (
-  <div className="text-gray-600 text-2xl tracking-wide">{children}</div>
-)
-
 export const VideoTitles: React.FC = () => {
-  const frame = useCurrentFrame();
-  const opacity = interpolate(frame, [0, 30], [0, 1]);
-
   return (
-    <div
-      style={{
-        position: 'absolute',
-        bottom: 80,
-        opacity,
-        background: gradients.bluePurple
-      }}
-      className="p-10 font-sans"
-    >
+    <Layout background={gradients.bluePurple} title="Top titles" timeframe={data[0].timeframe} >
       <div className="grid grid-cols-5 gap-20">
         {data[0].data.map(video_title => (
           <>
@@ -45,10 +29,6 @@ export const VideoTitles: React.FC = () => {
           </>
         ))}
       </div>
-
-      <DateRange>
-        From {format(new Date(data[0].timeframe[0] * 1000), 'MM/dd/yyyy')} to {format(new Date(data[0].timeframe[1] * 1000), 'MM/dd/yyyy')}
-      </DateRange>
-    </div>
+    </Layout>
   );
 };
