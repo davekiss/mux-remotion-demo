@@ -11,7 +11,7 @@ export const Intro: React.FC = () => {
       <div className="border-b border-mux-gray my-20">
         <h1 className="text-mux-black leading-none" style={{ fontSize: "100px" }}>Video stats overview</h1>
         <h2 className="text-mux-gray mb-48" style={{ fontSize: "100px" }}>
-          {format(new Date(timeframe[0] * 1000), 'MM/dd')} – {format(new Date(timeframe[1] * 1000), 'MM/dd, yyyy')}
+          {format(new Date(timeframe[0] * 1000), 'MMM. dd')} – {format(new Date(timeframe[1] * 1000), 'MMM. dd, yyyy')}
         </h2>
       </div>
       <div>
