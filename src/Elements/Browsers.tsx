@@ -37,7 +37,7 @@ const Measure = ({ index, value, percentage }: { index: number, value: number, p
           strokeWidth="10"
           strokeDasharray={`calc(${m} * 31.42 / 100) 31.42`}
           transform="rotate(-90) translate(-20)" />
-        <circle r="9.9" cx="10" cy="10" fill="transparent" stroke="black" strokeWidth=".2" />
+        <circle r="9.9" cx="10" cy="10" fill="transparent" stroke="#1a96fd" strokeWidth=".2" />
       </svg>
       <div className="z-10 flex flex-col items-center justify-center">
         <span className="font-sans font-semibold" style={{ fontSize: "80px" }}>{percentage.toFixed(1)}%</span>
@@ -63,7 +63,7 @@ export const Browsers: React.FC = () => {
   const totalDatasetViewers = data[0].data.map(d => d.value).reduce((previousValue, currentValue) => previousValue + currentValue);
 
   return (
-    <Layout background={gradients.blueGreen} title="Browser stats" timeframe={data[0].timeframe}>
+    <Layout bodyClass="bg-mux-blue" title="Browser stats" timeframe={data[0].timeframe}>
       <div className="grid grid-cols-5">
         {data[0].data.map((row, i) => {
           const icon = LOGO_LOOKUP[row.field];

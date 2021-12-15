@@ -1,23 +1,21 @@
 import React from 'react';
 import { interpolate, useCurrentFrame, useVideoConfig, spring } from 'remotion';
-import { gradients } from './config';
 import { formatNumber } from '../utils';
 import data from "../data/overall.json";
 
 import Layout from "../components/Layout";
-import TrendingUp from '../components/icons/TrendingUp';
-import TrendingDown from '../components/icons/TrendingDown';
+import Play from "../components/icons/Play";
 
 const Stat = ({ children }: { children: React.ReactNode }) => (
-  <div className="mb-12">{children}</div>
+  <div className="mb-12 border-t-2 border-mux-pink-darker grid items-start py-4 h-72" style={{ gridTemplateColumns: "800px 500px 450px" }}>{children}</div>
 )
 
 const Value = ({ children }: { children: React.ReactNode }) => (
-  <div className="font-bold" style={{ fontSize: `120px` }}>{children}</div>
+  <div className="font-normal leading-none " style={{ fontSize: `110px` }}>{children}</div>
 )
 
 const Label = ({ children }: { children: React.ReactNode }) => (
-  <div className="font-semibold text-gray-500 text-5xl font-mono">{children}</div>
+  <div className="font-normal text-mux-black text-3xl font-sans">{children}</div>
 )
 
 const Trend = ({ previousMonthValue, pastMonthValue }: { previousMonthValue: number; pastMonthValue: number; }) => {
@@ -34,13 +32,13 @@ const Trend = ({ previousMonthValue, pastMonthValue }: { previousMonthValue: num
     },
   });
 
-  const delta = ((1 - previousMonthValue / pastMonthValue) * 100).toFixed(1);
+  const delta = Math.abs(((1 - previousMonthValue / pastMonthValue) * 100)).toFixed(1);
   const isTrendingUp = pastMonthValue > previousMonthValue
-  const ChartIcon = isTrendingUp ? TrendingUp : TrendingDown
+  const prefix = isTrendingUp ? "+" : "-"
 
   return (
-    <div className={`text-white inline-flex text-3xl px-4 py-2 items-center ${isTrendingUp ? "bg-green-700" : "bg-red-700"}`} style={{ transform: `translateY(${y}px)` }}>
-      <ChartIcon /> <span className="ml-4">{delta}% from {formatNumber(previousMonthValue)}</span>
+    <div className="mt-4 text-2xl px-4 py-2 border border-mux-pink-darker font-mono uppercase" style={{ width: "fit-content", transform: `translateY(${y}px)` }}>
+      <span className="text-mux-pink-darkest">{prefix}{delta}% from last month</span>
     </div>
   )
 }
@@ -66,15 +64,16 @@ export const Overall: React.FC = () => {
   const totalWatchTime = getCurrentValue(driver, data[0].data.total_watch_time);
 
   return (
-    <Layout background={gradients.softPink} title="Overall stats" timeframe={data[0].timeframe} >
+    <Layout bodyClass="bg-mux-pink" title="Overall stats" timeframe={data[0].timeframe} >
       <Stat>
         <Value>{formatNumber(totalViews)}</Value>
-        <Label>total views</Label>
+        <Label>Total views</Label>
         <Trend pastMonthValue={data[0].data.total_views} previousMonthValue={data[1].data.total_views} />
       </Stat>
       <Stat>
-        <Value>{formatNumber(totalWatchTime)}</Value>
-        <Label>seconds of video watched</Label>
+        <Value>{formatNumber(Math.floor(totalWatchTime / 10000))}</Value>
+        <Label>Minutes watched</Label>
+        <Trend pastMonthValue={data[0].data.total_watch_time} previousMonthValue={data[1].data.total_watch_time} />
       </Stat>
     </Layout>
   );

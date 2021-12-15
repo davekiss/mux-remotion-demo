@@ -21,7 +21,7 @@ const Stat = ({ index, children }: { index: number, children: React.ReactNode })
   const opacity = interpolate(frame, [10 + (index * 8), 20 + (index * 8)], [0, 1]);
 
   return (
-    <div className="flex items-start border-t border-gray-900 p-4 relative" style={{ transform: `translateY(${offset}px)`, opacity }}>{children}</div>
+    <div className="flex items-start border-t-2 border-mux-green-darker p-4 relative" style={{ transform: `translateY(${offset}px)`, opacity }}>{children}</div>
   )
 }
 
@@ -46,11 +46,11 @@ const Measure = ({ index, value }: { index: number, value: number }) => {
 }
 
 const Value = ({ children }: { children: React.ReactNode }) => (
-  <div className="flex-1 z-10 font-sans" style={{ fontSize: `60px` }}>{children}</div>
+  <div className="flex-1 z-10 font-sans" style={{ fontSize: `100px` }}>{children}</div>
 )
 
 const Label = ({ children }: { children: React.ReactNode }) => (
-  <div className="text-gray-500 text-4xl font-mono">{children}</div>
+  <div className="text-mux-black text-4xl font-sans capitalize">{children}</div>
 )
 
 export const Devices: React.FC = () => {
