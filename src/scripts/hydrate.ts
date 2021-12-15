@@ -96,6 +96,13 @@ const REQUESTS: Request[] = [
     group_by: "browser",
     order_by: "value",
     limit: 5,
+    filters: [
+      {type: "include", "key": "browser", "value": "Chrome"},
+      {type: "include", "key": "browser", "value": "Safari"},
+      {type: "include", "key": "browser", "value": "Edge"},
+      {type: "include", "key": "browser", "value": "Opera"},
+      {type: "include", "key": "browser", "value": "Firefox"},
+    ]
   },
 
   // Number of views by device
