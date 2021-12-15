@@ -3,6 +3,7 @@ import { useCurrentFrame, useVideoConfig, spring, interpolate } from 'remotion';
 import { gradients } from './config';
 import data from "../data/views_by_device.json";
 import Layout from "../components/Layout";
+import Measure from "../components/Measure";
 
 const Stat = ({ index, children }: { index: number, children: React.ReactNode }) => {
   const frame = useCurrentFrame();
@@ -22,26 +23,6 @@ const Stat = ({ index, children }: { index: number, children: React.ReactNode })
 
   return (
     <div className="flex items-start border-t-2 border-mux-green-darker p-4 relative" style={{ transform: `translateY(${offset}px)`, opacity }}>{children}</div>
-  )
-}
-
-// Passing index allows us to cascade the measurement animation
-const Measure = ({ index, value }: { index: number, value: number }) => {
-  const frame = useCurrentFrame();
-  const videoConfig = useVideoConfig();
-
-  const width = spring({
-    frame: frame - 20 - (index * 8), // delay the starting frame of the animation
-    from: 0,
-    to: value,
-    fps: videoConfig.fps,
-    config: {
-      damping: 60
-    }
-  });
-
-  return (
-    <div className="absolute inset-0 bg-white" style={{ width: `${width}%` }} />
   )
 }
 
