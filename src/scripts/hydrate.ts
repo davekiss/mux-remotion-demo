@@ -4,13 +4,19 @@ require('dotenv').config()
 import * as fs from "fs/promises";
 import { subMonths, getUnixTime } from 'date-fns'
 
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 type Metric = "views" | "unique_viewers"
-type GroupBy = "viewer_device_category" | "video_title" | "country" | "browser"
+type GroupBy = "viewer_device_category" | "video_title" | "region" | "browser"
 type OrderBy = "views" | "playing_time" | "field" | "value"
 type OrderDirection = "asc" | "desc"
 type DataType = "overall" | "breakdown"
+
+type Filter = {
+  type: "include" | "exclude";
+  key: string;
+  value: string | number;
+}
 
 type Request = {
   type: DataType;
@@ -20,6 +26,7 @@ type Request = {
   order_by?: OrderBy;
   limit?: number;
   order_direction?: OrderDirection;
+  filters?: Filter[]
 }
 
 type Breakdown = {
@@ -68,14 +75,17 @@ const REQUESTS: Request[] = [
     limit: 10,
   },
 
-  // Uniquer viewers by country
+  // Uniquer viewers by US state
   {
     metric: "unique_viewers",
     type: "breakdown",
-    outputFilename: "unique_viewers_by_country.json",
-    group_by: "country",
+    outputFilename: "unique_viewers_by_us_state.json",
+    group_by: "region",
     order_by: "value",
     limit: 50,
+    filters: [
+      { type: "include", key: "country", value: "US" }
+    ]
   },
 
   // Uniquer viewers by browser
@@ -85,7 +95,7 @@ const REQUESTS: Request[] = [
     outputFilename: "unique_viewers_by_browser.json",
     group_by: "browser",
     order_by: "value",
-    limit: 20,
+    limit: 5,
   },
 
   // Number of views by device
@@ -95,7 +105,7 @@ const REQUESTS: Request[] = [
     outputFilename: "views_by_device.json",
     group_by: "viewer_device_category",
     order_by: "views",
-    limit: 5,
+    limit: 4,
   },
 
   // Play time by title
@@ -117,12 +127,22 @@ const pastMonthTimeframe = `timeframe[]=${one_month_ago}&timeframe[]=${getUnixTi
 const previousMonthTimeframe = `timeframe[]=${two_months_ago}&timeframe[]=${one_month_ago}`
 
 const fetchData = async (metric: Metric, type: DataType, querystring: string) => {
-  const [pastMonthResponse, previousMonthResponse] = await Promise.all([
-    axios.get(`https://api.mux.com/data/v1/metrics/${metric}/${type}?${pastMonthTimeframe}${querystring}`, { headers }),
-    axios.get(`https://api.mux.com/data/v1/metrics/${metric}/${type}?${previousMonthTimeframe}${querystring}`, { headers })
-  ])
+  try {
+    const [pastMonthResponse, previousMonthResponse] = await Promise.all([
+      axios.get(`https://api.mux.com/data/v1/metrics/${metric}/${type}?${pastMonthTimeframe}${querystring}`, { headers }),
+      axios.get(`https://api.mux.com/data/v1/metrics/${metric}/${type}?${previousMonthTimeframe}${querystring}`, { headers })
+    ])
+  
+    return [pastMonthResponse.data, previousMonthResponse.data];
+  } catch (error) {
+    if (axios.isAxiosError(error))  {
+      // Access to config, request, and response
+    } else {
+      console.log(error)
+    }
 
-  return [pastMonthResponse.data, previousMonthResponse.data];
+    return [];
+  }
 }
 
 const hydrate = async () => {
@@ -131,8 +151,12 @@ const hydrate = async () => {
   await fs.mkdir("./src/data");
 
   await Promise.all(
-    REQUESTS.map(async ({ type, metric, group_by, limit, order_by, order_direction = "desc", outputFilename }) => {
-      const querystring = type === "breakdown" ? `&group_by=${group_by}&limit=${limit}&order_by=${order_by}&order_direction=${order_direction}` : "";
+    REQUESTS.map(async ({ type, metric, group_by, limit, order_by, order_direction = "desc", filters = [], outputFilename }) => {
+      const params = type === "breakdown" ? `&group_by=${group_by}&limit=${limit}&order_by=${order_by}&order_direction=${order_direction}` : "";
+      const filterStrings = filters.map(({type, key, value}) => 
+        `&filters[]=${type === "exclude" ? "!" : ""}${key}:${value}`
+      )
+      const querystring = params + filterStrings.join('');
       const response = await fetchData(metric, type, querystring);
       await fs.writeFile(`./src/data/${outputFilename}`, JSON.stringify(response));
     }))
