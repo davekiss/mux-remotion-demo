@@ -1,8 +1,8 @@
 import { interpolate, Sequence, useCurrentFrame, useVideoConfig } from 'remotion';
-import MuxLogo from './Elements/MuxLogo';
 import { Title } from './Elements/Title';
 import { Overall } from './Elements/Overall';
 import { Intro } from './Elements/Intro';
+import { Outro } from './Elements/Outro';
 import { Devices } from './Elements/Devices';
 import { Countries } from './Elements/Countries';
 import { VideoTitles } from './Elements/VideoTitles';
@@ -46,6 +46,9 @@ export const Timeline: React.FC<{
         </Sequence>
         <Sequence from={transitionStart + 820} durationInFrames={180}>
           <Browsers />
+        </Sequence>
+        <Sequence from={transitionStart + 1000} durationInFrames={180}>
+          <Outro />
         </Sequence>
       </div>
     </div>
