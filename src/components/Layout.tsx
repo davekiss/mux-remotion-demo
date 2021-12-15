@@ -5,14 +5,14 @@ import { format } from 'date-fns';
 import MuxLogo from '../Elements/MuxLogo';
 
 const DateRange = ({ children }: { children: React.ReactNode }) => (
-  <div style={{ color: GRAY }} className="text-gray-600 text-5xl tracking-wide">{children}</div>
+  <div className="text-mux-gray text-5xl tracking-wide">{children}</div>
 )
 
 const Title = ({ children }: { children: React.ReactNode }) => (
   <h1 className="text-gray-600 text-5xl ml-20 flex-1 font-sans" style={{ color: GRAY }}>{children}</h1>
 )
 
-const Layout = ({ background, title, timeframe, children }: { background: string, title?: string, timeframe?: number[], children: React.ReactNode }) => {
+const Layout = ({ background, bodyClass, title, timeframe, children }: { background?: string, bodyClass?: string, title?: string, timeframe?: number[], children: React.ReactNode }) => {
   const frame = useCurrentFrame();
   const opacity = interpolate(frame, [0, 30], [0, 1]);
 
@@ -30,11 +30,11 @@ const Layout = ({ background, title, timeframe, children }: { background: string
 
         {timeframe && (
           <DateRange>
-            {format(new Date(timeframe[0] * 1000), 'MM/dd')} – {format(new Date(timeframe[1] * 1000), 'MM/dd yyyy')}
+            {format(new Date(timeframe[0] * 1000), 'MMM. dd')} – {format(new Date(timeframe[1] * 1000), 'MMM. dd yyyy')}
           </DateRange>
         )}
       </div>
-      <div className="p-20" style={{ background }}>
+      <div className={`p-20 ${bodyClass}`} style={{ background }}>
         {children}
       </div>
     </div>
