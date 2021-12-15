@@ -4,7 +4,7 @@ import { Overall } from './Elements/Overall';
 import { Intro } from './Elements/Intro';
 import { Outro } from './Elements/Outro';
 import { Devices } from './Elements/Devices';
-import { Countries } from './Elements/Countries';
+import { States } from './Elements/States';
 import { VideoTitles } from './Elements/VideoTitles';
 import { Browsers } from './Elements/Browsers';
 
@@ -42,7 +42,7 @@ export const Timeline: React.FC<{
           <VideoTitles />
         </Sequence>
         <Sequence from={transitionStart + 640} durationInFrames={180}>
-          <Countries />
+          <States />
         </Sequence>
         <Sequence from={transitionStart + 820} durationInFrames={180}>
           <Browsers />

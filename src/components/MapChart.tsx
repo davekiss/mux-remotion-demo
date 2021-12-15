@@ -9,17 +9,16 @@ import {
 
 import { interpolateColors, useCurrentFrame } from "remotion";
 
-type CountryData = {
-  views: number; // number of views in this country
-  value: number; // unique viewers in this country
-  total_watch_time: number; // seconds watched in this country
-  field: string; // ISO 2 Country Code
+type StateData = {
+  views: number; // number of views in this state
+  value: number; // unique viewers in this state
+  total_watch_time: number; // seconds watched in this state
+  field: string; // State name
 }
 
-const geoUrl =
-  "https://raw.githubusercontent.com/zcreativelabs/react-simple-maps/master/topojson-maps/world-110m.json";
+const geoUrl = "https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json";
 
-const MapChart = ({ data }: { data: CountryData[] }) => {
+const MapChart = ({ data }: { data: StateData[] }) => {
   const minUniqueViewers = data.sort((a, b) => a.value - b.value)[0].value;
   const maxUniqueViewers = data.sort((a, b) => b.value - a.value)[0].value;
 
@@ -29,28 +28,27 @@ const MapChart = ({ data }: { data: CountryData[] }) => {
   return (
     <ComposableMap
       width={1000}
-      height={600}
-      projectionConfig={{
-        rotate: [-10, 0, 0],
-        scale: 147
-      }}
+      height={500}
+      projection="geoAlbersUsa"
     >
-      <Sphere id="map" fill="transparent" stroke="#f4f4f4" strokeWidth={0.5} />
-      <Graticule stroke="#f4f4f4" strokeWidth={0.5} />
-
       {data.length > 0 && (
         <Geographies geography={geoUrl}>
           {({ geographies }) =>
             geographies.map((geo) => {
-              const d = data.find((s) => s.field === geo.properties.ISO_A2);
-              const val = d?.value || 0;
-              const color = interpolateColors(val, uniqueViewerRange, ["#e8e8e8", "#fb2491"]);
+              // const d = data.find((s) => s.field === geo.properties.name);
+              // const val = d?.value || 0;
+              // const color = interpolateColors(val, uniqueViewerRange, ["#FFF3C7", "#FB501D"]);
+
+              const d = data.findIndex((s) => s.field === geo.properties.name);
+              const val = d + 1 || 50;
+              const color = interpolateColors(val, [1, 50], ["#FB501D", "#FFF3C7"]);
 
               return (
                 <Geography
                   key={geo.rsmKey}
                   geography={geo}
                   fill={color}
+                  stroke="#FED32F"
                 />
               );
             })

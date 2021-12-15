@@ -6,7 +6,7 @@ import { Overall } from './Elements/Overall';
 import { Intro } from './Elements/Intro';
 import { Outro } from './Elements/Outro';
 import { Devices } from './Elements/Devices';
-import { Countries } from './Elements/Countries';
+import { States } from './Elements/States';
 import { Browsers } from './Elements/Browsers';
 import { VideoTitles } from './Elements/VideoTitles';
 
@@ -61,8 +61,8 @@ export const RemotionVideo: React.FC = () => {
       />
 
       <Composition
-        id="Countries"
-        component={Countries}
+        id="States"
+        component={States}
         durationInFrames={180}
         fps={30}
         width={1920}
