@@ -1,30 +1,34 @@
 import React from 'react';
-import { gradients } from './config';
 import Layout from "../components/Layout";
 
 import data from "../data/views_by_title.json";
 
 const Stat = ({ children }: { children: React.ReactNode }) => (
-  <div className="mb-12">{children}</div>
+  <div className="flex border-t-2 border-mux-purple py-5 text-3xl">{children}</div>
 )
 
 const Value = ({ children }: { children: React.ReactNode }) => (
-  <div className="font-bold" style={{ fontSize: `60px` }}>{children}</div>
+  <div className="font-normal">{children}</div>
 )
 
 const Label = ({ children }: { children: React.ReactNode }) => (
-  <div className="text-gray-500 text-4xl">{children}</div>
+  <div className="text-mux-black flex-1">{children}</div>
+)
+
+const Index = ({ children }: { children: React.ReactNode }) => (
+  <div className="text-mux-purple mr-8">{children}.</div>
 )
 
 export const VideoTitles: React.FC = () => {
   return (
-    <Layout background={gradients.bluePurple} title="Top titles" timeframe={data[0].timeframe} >
-      <div className="grid grid-cols-5 gap-20">
-        {data[0].data.map(video_title => (
+    <Layout bodyClass="bg-mux-lavendar" title="Top 10 videos by viewership" timeframe={data[0].timeframe} >
+      <div className="grid grid-cols-2 grid-rows-5 gap-10">
+        {data[0].data.map((video_title, i) => (
           <>
             <Stat>
-              <Value>{new Intl.NumberFormat().format(video_title.views)}</Value>
+              <Index>{i + 1}</Index>
               <Label>{video_title.field}</Label>
+              <Value>{new Intl.NumberFormat().format(video_title.views)}</Value>
             </Stat>
           </>
         ))}
