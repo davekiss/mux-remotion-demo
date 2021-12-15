@@ -25,7 +25,7 @@ export const VideoTitles: React.FC = () => {
 
   return (
     <Layout bodyClass="bg-mux-lavendar" title="Top 10 videos by viewership" timeframe={data[0].timeframe} >
-      <div className="grid grid-cols-2 grid-rows-5">
+      <div className="grid grid-cols-2 grid-rows-5 gap-x-10">
         {data[0].data.map((video_title, i) => (
           <>
             <Stat>
