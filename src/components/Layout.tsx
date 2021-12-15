@@ -12,7 +12,7 @@ const Title = ({ children }: { children: React.ReactNode }) => (
   <h1 className="text-gray-600 text-5xl ml-20 flex-1 font-sans" style={{ color: GRAY }}>{children}</h1>
 )
 
-const Layout = ({ background, title, timeframe, children }: { background: string, title: string, timeframe: number[], children: React.ReactNode }) => {
+const Layout = ({ background, title, timeframe, children }: { background: string, title?: string, timeframe?: number[], children: React.ReactNode }) => {
   const frame = useCurrentFrame();
   const opacity = interpolate(frame, [0, 30], [0, 1]);
 
@@ -28,9 +28,11 @@ const Layout = ({ background, title, timeframe, children }: { background: string
         <MuxLogo />
         <Title>{title}</Title>
 
-        <DateRange>
-          {format(new Date(timeframe[0] * 1000), 'MM/dd')} – {format(new Date(timeframe[1] * 1000), 'MM/dd yyyy')}
-        </DateRange>
+        {timeframe && (
+          <DateRange>
+            {format(new Date(timeframe[0] * 1000), 'MM/dd')} – {format(new Date(timeframe[1] * 1000), 'MM/dd yyyy')}
+          </DateRange>
+        )}
       </div>
       <div className="p-20" style={{ background }}>
         {children}

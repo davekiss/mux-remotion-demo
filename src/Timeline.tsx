@@ -2,6 +2,7 @@ import { interpolate, Sequence, useCurrentFrame, useVideoConfig } from 'remotion
 import MuxLogo from './Elements/MuxLogo';
 import { Title } from './Elements/Title';
 import { Overall } from './Elements/Overall';
+import { Intro } from './Elements/Intro';
 import { Devices } from './Elements/Devices';
 import { Countries } from './Elements/Countries';
 import { VideoTitles } from './Elements/VideoTitles';
@@ -29,12 +30,7 @@ export const Timeline: React.FC<{
     <div style={{ flex: 1, backgroundColor: 'white' }}>
       <div style={{ opacity }}>
         <Sequence from={0} durationInFrames={125}>
-          <div className="flex items-center justify-center w-full">
-            <MuxLogo transitionStart={transitionStart} />
-          </div>
-        </Sequence>
-        <Sequence from={transitionStart + 10} durationInFrames={90}>
-          <Title titleText={titleText} titleColor={titleColor} />
+          <Intro />
         </Sequence>
         <Sequence from={transitionStart + 100} durationInFrames={180}>
           <Overall />
