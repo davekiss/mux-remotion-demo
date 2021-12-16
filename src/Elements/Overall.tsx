@@ -27,6 +27,7 @@ export const Overall: React.FC = () => {
     fps,
     config: {
       damping: 60,
+      mass: 0.4,
       overshootClamping: true
     }
   });

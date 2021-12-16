@@ -29,7 +29,8 @@ const Stat = ({ index, children }: { index: number, children: React.ReactNode })
     to: 0,
     fps: videoConfig.fps,
     config: {
-      damping: 60
+      damping: 60,
+      mass: 0.4
     }
   });
 
