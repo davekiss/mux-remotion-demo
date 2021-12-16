@@ -95,12 +95,11 @@ const REQUESTS: Request[] = [
     outputFilename: "unique_viewers_by_browser.json",
     group_by: "browser",
     order_by: "value",
-    limit: 5,
+    limit: 4,
     filters: [
       {type: "include", "key": "browser", "value": "Chrome"},
       {type: "include", "key": "browser", "value": "Safari"},
       {type: "include", "key": "browser", "value": "Edge"},
-      {type: "include", "key": "browser", "value": "Opera"},
       {type: "include", "key": "browser", "value": "Firefox"},
     ]
   },

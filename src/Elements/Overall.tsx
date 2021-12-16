@@ -1,55 +1,26 @@
 import React from 'react';
-import { interpolate, useCurrentFrame, useVideoConfig, spring } from 'remotion';
-import { formatNumber } from '../utils';
+import { useCurrentFrame, useVideoConfig, spring } from 'remotion';
+import { formatNumber, getCurrentValue } from '../utils';
 import data from "../data/overall.json";
 
 import Layout from "../components/Layout";
+import Trend from "../components/Trend";
 import Play from "../components/icons/Play";
 
 const Stat = ({ children }: { children: React.ReactNode }) => (
-  <div className="mb-12 border-t-2 border-mux-pink-darker grid items-start py-4 h-72" style={{ gridTemplateColumns: "800px 500px 450px" }}>{children}</div>
+  <div className="mb-12 border-t-2 border-mux-pink-darker flex items-start justify-between py-5 px-10 h-72">{children}</div>
 )
 
 const Value = ({ children }: { children: React.ReactNode }) => (
-  <div className="font-normal leading-none " style={{ fontSize: `110px` }}>{children}</div>
+  <div className="font-normal leading-none mb-4 text-mux-black" style={{ fontSize: `110px` }}>{children}</div>
 )
 
 const Label = ({ children }: { children: React.ReactNode }) => (
-  <div className="font-normal text-mux-black text-3xl font-sans">{children}</div>
+  <div className="font-normal text-mux-black text-5xl font-sans">{children}</div>
 )
-
-const Trend = ({ previousMonthValue, pastMonthValue }: { previousMonthValue: number; pastMonthValue: number; }) => {
-  const frame = useCurrentFrame();
-  const videoConfig = useVideoConfig();
-
-  const y = spring({
-    frame,
-    from: 100,
-    to: 0,
-    fps: videoConfig.fps,
-    config: {
-      stiffness: 100,
-    },
-  });
-
-  const delta = Math.abs(((1 - previousMonthValue / pastMonthValue) * 100)).toFixed(1);
-  const isTrendingUp = pastMonthValue > previousMonthValue
-  const prefix = isTrendingUp ? "+" : "-"
-
-  return (
-    <div className="mt-4 text-2xl px-4 py-2 border border-mux-pink-darker font-mono uppercase" style={{ width: "fit-content", transform: `translateY(${y}px)` }}>
-      <span className="text-mux-pink-darkest">{prefix}{delta}% from last month</span>
-    </div>
-  )
-}
-
-const getCurrentValue = (spring: number, endValue: number) => Math.ceil(interpolate(spring, [0, 1], [0, endValue], {
-  extrapolateRight: "clamp",
-}))
 
 export const Overall: React.FC = () => {
   const frame = useCurrentFrame();
-
   const { fps } = useVideoConfig();
   const driver = spring({
     frame,
@@ -66,14 +37,18 @@ export const Overall: React.FC = () => {
   return (
     <Layout bodyClass="bg-mux-pink" title="Overall stats" timeframe={data[0].timeframe} >
       <Stat>
-        <Value>{formatNumber(totalViews)}</Value>
-        <Label>Total views</Label>
-        <Trend pastMonthValue={data[0].data.total_views} previousMonthValue={data[1].data.total_views} />
+        <div>
+          <Value>{formatNumber(totalViews)}</Value>
+          <Label>Total views</Label>
+        </div>
+        <Trend color="pink" pastMonthValue={data[0].data.total_views} previousMonthValue={data[1].data.total_views} />
       </Stat>
       <Stat>
-        <Value>{formatNumber(Math.floor(totalWatchTime / 10000))}</Value>
-        <Label>Minutes watched</Label>
-        <Trend pastMonthValue={data[0].data.total_watch_time} previousMonthValue={data[1].data.total_watch_time} />
+        <div>
+          <Value>{formatNumber(Math.floor(totalWatchTime / 10000))}</Value>
+          <Label>Minutes watched</Label>
+        </div>
+        <Trend color="pink" pastMonthValue={data[0].data.total_watch_time} previousMonthValue={data[1].data.total_watch_time} />
       </Stat>
     </Layout>
   );

@@ -1,9 +1,11 @@
 import React from 'react';
 import { useCurrentFrame, useVideoConfig, spring, interpolate } from 'remotion';
 import { gradients } from './config';
+import { formatNumber, getCurrentValue } from '../utils';
 import data from "../data/views_by_device.json";
 import Layout from "../components/Layout";
 import Measure from "../components/Measure";
+import Trend from "../components/Trend";
 
 import Tablet from '../components/icons/Tablet';
 import Desktop from '../components/icons/Desktop';
@@ -39,30 +41,47 @@ const Stat = ({ index, children }: { index: number, children: React.ReactNode })
 }
 
 const Value = ({ children }: { children: React.ReactNode }) => (
-  <div className="flex-1 z-10 font-sans" style={{ fontSize: `100px` }}>{children}</div>
+  <div className="z-10 font-sans" style={{ width: "600px", fontSize: `100px` }}>{children}</div>
 )
 
 const Label = ({ children }: { children: React.ReactNode }) => (
-  <div className="text-mux-black text-4xl font-sans capitalize">{children}</div>
+  <div className="text-mux-black text-4xl font-sans capitalize z-10" style={{ width: "500px" }}>{children}</div>
 )
 
 export const Devices: React.FC = () => {
   const totalDatasetViews = data[0].data.map(d => d.views).reduce((previousValue, currentValue) => previousValue + currentValue);
+  const maxDatasetViews = data[0].data.sort((a, b) => b.views - a.views)[0].views;
+
+  const frame = useCurrentFrame();
+  const { fps } = useVideoConfig();
+  const driver = spring({
+    frame,
+    fps,
+    config: {
+      damping: 60,
+      overshootClamping: true
+    }
+  });
 
   return (
     <Layout background={gradients.yellowGreen} title="Views by device" timeframe={data[0].timeframe} >
       <div className="grid grid-rows-5">
         {data[0].data.map((device, i) => {
           const Icon = DEVICE_LOOKUP[device.field]
+          const totalViews = getCurrentValue(driver, device.views);
+          const previousMonthViews = data[1].data.find(d => d.field === device.field)?.views || 0
 
           return (
             <Stat key={device.value} index={i}>
-              <div className="z-10 w-20 mr-20">
+              <div className="z-10 w-28 mr-20">
                 <Icon />
               </div>
-              <Measure index={i} value={(device.views / totalDatasetViews) * 100} />
-              <Value>{new Intl.NumberFormat().format(device.views)}</Value>
+              <Measure index={i} value={(device.views / maxDatasetViews) * 100} />
+              <Value>{formatNumber(totalViews)}</Value>
               <Label>{device.field}</Label>
+              <div className="flex justify-end" style={{ width: "450px" }}>
+                <Trend color="green" pastMonthValue={device.views} previousMonthValue={previousMonthViews} />
+              </div>
             </Stat>
           )
         })}
