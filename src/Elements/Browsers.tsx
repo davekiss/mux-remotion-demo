@@ -78,7 +78,7 @@ export const Browsers: React.FC = () => {
                 <Img src={icon} className="mb-4" />
               </div>
 
-              <p className="text-4xl text-mux-black font-sans mb-16 tracking-tight">{row.field}</p>
+              <p className="text-5xl text-mux-black font-sans tracking-tight">{row.field}</p>
             </div>
           )
         })}
