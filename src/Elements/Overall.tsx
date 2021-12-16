@@ -41,14 +41,14 @@ export const Overall: React.FC = () => {
           <Value>{formatNumber(totalViews)}</Value>
           <Label>Total views</Label>
         </div>
-        <Trend color="pink" pastMonthValue={data[0].data.total_views} previousMonthValue={data[1].data.total_views} />
+        <Trend border color="pink" pastMonthValue={data[0].data.total_views} previousMonthValue={data[1].data.total_views} />
       </Stat>
       <Stat>
         <div>
           <Value>{formatNumber(Math.floor(totalWatchTime / 10000))}</Value>
           <Label>Minutes watched</Label>
         </div>
-        <Trend color="pink" pastMonthValue={data[0].data.total_watch_time} previousMonthValue={data[1].data.total_watch_time} />
+        <Trend border color="pink" pastMonthValue={data[0].data.total_watch_time} previousMonthValue={data[1].data.total_watch_time} />
       </Stat>
     </Layout>
   );

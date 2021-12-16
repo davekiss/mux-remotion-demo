@@ -1,6 +1,7 @@
 import React from 'react';
 import { useCurrentFrame, Img, spring, useVideoConfig } from 'remotion';
 import Layout from "../components/Layout";
+import Trend from "../components/Trend";
 
 import Chrome from '../../node_modules/browser-logos/src/chrome/chrome_256x256.png';
 import Firefox from '../../node_modules/browser-logos/src/firefox/firefox_256x256.png';
@@ -24,7 +25,7 @@ const Measure = ({ index, value, percentage }: { index: number, value: number, p
   });
 
   return (
-    <div className="relative w-72 h-72 items-center flex justify-center mb-32">
+    <div className="relative w-72 h-72 items-center flex justify-center mb-5">
       <svg className="w-72 h-72 absolute" viewBox="0 0 20 20">
         <circle
           r="5" cx="10" cy="10"
@@ -35,7 +36,10 @@ const Measure = ({ index, value, percentage }: { index: number, value: number, p
           transform="rotate(-90) translate(-20)" />
       </svg>
       <div className="z-10 flex flex-col items-center justify-center">
-        <span className="font-sans font-normal" style={{ fontSize: "80px" }}>{percentage.toFixed(1)}%</span>
+        <div className="font-sans font-normal flex items-start">
+          <span style={{ fontSize: "100px" }}>{percentage.toFixed(1)}</span>
+          <span style={{ fontSize: "30px", transform: "translateY(36px)" }}>%</span>
+        </div>
         <span className="font-sans font-normal" style={{ fontSize: "36px" }}>{formatNumber(value)} views</span>
       </div>
     </div>
@@ -54,14 +58,21 @@ export const Browsers: React.FC = () => {
   const totalDatasetViewers = data[0].data.map(d => d.value).reduce((previousValue, currentValue) => previousValue + currentValue);
 
   return (
-    <Layout bodyClass="bg-mux-blue" title="Top 5 browsers by views" timeframe={data[0].timeframe}>
-      <div className="grid grid-cols-5">
+    <Layout bodyClass="bg-mux-blue" title="Top browsers by views" timeframe={data[0].timeframe}>
+      <div className="grid grid-cols-4">
         {data[0].data.map((row, i) => {
           const icon = LOGO_LOOKUP[row.field];
           if (!icon) return;
+
+          const previousMonthViews = data[1].data.find(d => d.field === row.field)?.value || 0
+
           return (
-            <div key={row.field} className={`flex flex-col items-center ${i < 4 ? "border-r-2 border-mux-blue-darker" : ""}`}>
+            <div key={row.field} className={`flex flex-col items-center ${i < 3 ? "border-r-2 border-mux-blue-darker" : ""}`}>
               <Measure index={i} value={row.value} percentage={(row.value / totalDatasetViewers) * 100} />
+
+              <div className="w-72 text-center mb-16">
+                <Trend color="blue" pastMonthValue={row.value} previousMonthValue={previousMonthViews} />
+              </div>
 
               <div className="w-32 h-32 bg-white p-5 rounded-lg mb-10">
                 <Img src={icon} className="mb-4" />

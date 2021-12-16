@@ -45,7 +45,7 @@ const Value = ({ children }: { children: React.ReactNode }) => (
 )
 
 const Label = ({ children }: { children: React.ReactNode }) => (
-  <div className="text-mux-black text-4xl font-sans capitalize z-10" style={{ width: "500px" }}>{children}</div>
+  <div className="text-mux-black text-4xl font-sans capitalize z-10" style={{ width: "460px" }}>{children}</div>
 )
 
 export const Devices: React.FC = () => {
@@ -73,14 +73,14 @@ export const Devices: React.FC = () => {
 
           return (
             <Stat key={device.value} index={i}>
-              <div className="z-10 w-28 mr-20">
+              <div className="z-10 w-28 pl-6 mr-20">
                 <Icon />
               </div>
               <Measure index={i} value={(device.views / maxDatasetViews) * 100} />
               <Value>{formatNumber(totalViews)}</Value>
               <Label>{device.field}</Label>
               <div className="flex justify-end" style={{ width: "450px" }}>
-                <Trend color="green" pastMonthValue={device.views} previousMonthValue={previousMonthViews} />
+                <Trend border color="green" pastMonthValue={device.views} previousMonthValue={previousMonthViews} />
               </div>
             </Stat>
           )

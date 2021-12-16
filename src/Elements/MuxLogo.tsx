@@ -7,7 +7,7 @@ const MuxLogo = (props) => {
   const opacity = interpolate(frame, [0, 30], [0, 1]);
 
   return (
-    <svg width="215px" height="70px" viewBox="0 0 215 70" version="1.1" {...props} style={{ opacity }}>
+    <svg width="127px" height="40px" viewBox="0 0 215 70" version="1.1" {...props} style={{ opacity }}>
       <defs>
         <linearGradient x1="-213.617434%" y1="50.0143293%" x2="100.003663%" y2="50.0143293%" id="linearGradient-1">
           <stop stopColor="#FF4E00" offset="0%" />
