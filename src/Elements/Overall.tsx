@@ -12,11 +12,11 @@ const Stat = ({ children }: { children: React.ReactNode }) => (
 )
 
 const Value = ({ children }: { children: React.ReactNode }) => (
-  <div className="font-normal leading-none mb-4 text-mux-black" style={{ fontSize: `110px` }}>{children}</div>
+  <div className="font-normal leading-none mb-4 text-mux-black tracking-tight" style={{ fontSize: `110px` }}>{children}</div>
 )
 
 const Label = ({ children }: { children: React.ReactNode }) => (
-  <div className="font-normal text-mux-black text-5xl font-sans">{children}</div>
+  <div className="font-normal text-mux-black text-5xl font-sans tracking-tight">{children}</div>
 )
 
 export const Overall: React.FC = () => {

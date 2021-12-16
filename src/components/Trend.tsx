@@ -20,8 +20,8 @@ const Trend = ({ border = false, color, previousMonthValue, pastMonthValue }: { 
   const prefix = isTrendingUp ? "+" : "-"
 
   return (
-    <div className={`mt-4 text-3xl px-4 py-3 rounded-lg ${border ? "border" : ""} border-mux-${color}-darker font-mono uppercase`} style={{ width: "fit-content", transform: `translateY(${y}px)` }}>
-      <span className={`text-mux-${color}-darkest`}>{prefix}{delta}% from last month</span>
+    <div className={`mt-4 text-3xl px-4 py-3 rounded-lg ${border ? "border-2" : ""} border-mux-${color}-darker font-mono uppercase`} style={{ width: "fit-content", transform: `translateY(${y}px)` }}>
+      <span className={`text-mux-${color}-darkest tracking-widest`}>{prefix}{delta}% from last month</span>
     </div>
   )
 }

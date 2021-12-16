@@ -10,15 +10,15 @@ const Stat = ({ children }: { children: React.ReactNode }) => (
 )
 
 const Value = ({ children }: { children: React.ReactNode }) => (
-  <div className="font-normal z-10">{children}</div>
+  <div className="font-normal z-10 tracking-tight">{children}</div>
 )
 
 const Label = ({ children }: { children: React.ReactNode }) => (
-  <div className="text-mux-black flex-1 z-10 mr-10">{children}</div>
+  <div className="text-mux-black flex-1 z-10 mr-10 tracking-tight">{children}</div>
 )
 
 const Index = ({ children }: { children: React.ReactNode }) => (
-  <div className="text-mux-purple mr-8 z-10">{children}.</div>
+  <div className="text-mux-purple mr-8 z-10 w-10">{children}.</div>
 )
 
 export const VideoTitles: React.FC = () => {
@@ -44,7 +44,7 @@ export const VideoTitles: React.FC = () => {
           {data[0].data.slice(5, 10).map((video_title, i) => (
             <>
               <Stat>
-                <Measure index={i + 6} value={(video_title.views / maxDatasetViews) * 100} />
+                <Measure index={i + 5} value={(video_title.views / maxDatasetViews) * 100} />
                 <Index>{i + 6}</Index>
                 <Label>{video_title.field}</Label>
                 <Value>{formatNumber(video_title.views)}</Value>

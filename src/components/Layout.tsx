@@ -5,11 +5,11 @@ import { format } from 'date-fns';
 import MuxLogo from '../Elements/MuxLogo';
 
 const DateRange = ({ children }: { children: React.ReactNode }) => (
-  <div className="text-mux-gray text-5xl tracking-wide">{children}</div>
+  <div className="text-mux-gray text-5xl tracking-tight">{children}</div>
 )
 
 const Title = ({ children }: { children: React.ReactNode }) => (
-  <h1 className="text-gray-600 text-5xl ml-20 flex-1 font-sans" style={{ color: GRAY }}>{children}</h1>
+  <h1 className="text-gray-600 text-5xl ml-20 flex-1 font-sans tracking-tight" style={{ color: GRAY }}>{children}</h1>
 )
 
 const Layout = ({ background, bodyClass, title, timeframe, children }: { background?: string, bodyClass?: string, title?: string, timeframe?: number[], children: React.ReactNode }) => {

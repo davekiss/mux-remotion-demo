@@ -41,11 +41,11 @@ const Stat = ({ index, children }: { index: number, children: React.ReactNode })
 }
 
 const Value = ({ children }: { children: React.ReactNode }) => (
-  <div className="z-10 font-sans" style={{ width: "600px", fontSize: `100px` }}>{children}</div>
+  <div className="z-10 font-sans tracking-tight" style={{ width: "600px", fontSize: `100px` }}>{children}</div>
 )
 
 const Label = ({ children }: { children: React.ReactNode }) => (
-  <div className="text-mux-black text-4xl font-sans capitalize z-10" style={{ width: "460px" }}>{children}</div>
+  <div className="text-mux-black text-4xl font-sans capitalize z-10 tracking-tight" style={{ width: "400px" }}>{children}</div>
 )
 
 export const Devices: React.FC = () => {
@@ -64,7 +64,7 @@ export const Devices: React.FC = () => {
   });
 
   return (
-    <Layout background={gradients.yellowGreen} title="Views by device" timeframe={data[0].timeframe} >
+    <Layout bodyClass="bg-mux-green" title="Views by device" timeframe={data[0].timeframe} >
       <div className="grid grid-rows-5">
         {data[0].data.map((device, i) => {
           const Icon = DEVICE_LOOKUP[device.field]
@@ -79,7 +79,7 @@ export const Devices: React.FC = () => {
               <Measure index={i} value={(device.views / maxDatasetViews) * 100} />
               <Value>{formatNumber(totalViews)}</Value>
               <Label>{device.field}</Label>
-              <div className="flex justify-end" style={{ width: "450px" }}>
+              <div className="flex justify-end" style={{ width: "520px" }}>
                 <Trend border color="green" pastMonthValue={device.views} previousMonthValue={previousMonthViews} />
               </div>
             </Stat>

@@ -37,10 +37,10 @@ const Measure = ({ index, value, percentage }: { index: number, value: number, p
       </svg>
       <div className="z-10 flex flex-col items-center justify-center">
         <div className="font-sans font-normal flex items-start">
-          <span style={{ fontSize: "100px" }}>{percentage.toFixed(1)}</span>
+          <span className="tracking-tight" style={{ fontSize: "100px" }}>{percentage.toFixed(1)}</span>
           <span style={{ fontSize: "30px", transform: "translateY(36px)" }}>%</span>
         </div>
-        <span className="font-sans font-normal" style={{ fontSize: "36px" }}>{formatNumber(value)} views</span>
+        <span className="font-sans font-normal tracking-tight" style={{ fontSize: "36px" }}>{formatNumber(value)} views</span>
       </div>
     </div>
   )
@@ -70,7 +70,7 @@ export const Browsers: React.FC = () => {
             <div key={row.field} className={`flex flex-col items-center ${i < 3 ? "border-r-2 border-mux-blue-darker" : ""}`}>
               <Measure index={i} value={row.value} percentage={(row.value / totalDatasetViewers) * 100} />
 
-              <div className="w-72 text-center mb-16">
+              <div className="w-80 text-center mb-16">
                 <Trend color="blue" pastMonthValue={row.value} previousMonthValue={previousMonthViews} />
               </div>
 
@@ -78,7 +78,7 @@ export const Browsers: React.FC = () => {
                 <Img src={icon} className="mb-4" />
               </div>
 
-              <p className="text-4xl text-mux-black font-sans mb-16">{row.field}</p>
+              <p className="text-4xl text-mux-black font-sans mb-16 tracking-tight">{row.field}</p>
             </div>
           )
         })}

@@ -21,8 +21,8 @@ export const States: React.FC = () => {
                 <Measure index={i} value={(d.value / maxDatasetValue) * 100} />
 
                 <div className="text-mux-yellow-darkest mr-6 z-10">0{i + 1}.</div>
-                <div className="flex-1 z-10">{d.field}</div>
-                <div className="z-10">{formatNumber(d.value)}</div>
+                <div className="flex-1 z-10 tracking-tight">{d.field}</div>
+                <div className="z-10 tracking-tight">{formatNumber(d.value)}</div>
               </div>
             )
           })}
