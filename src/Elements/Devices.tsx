@@ -79,7 +79,7 @@ export const Devices: React.FC = () => {
               </div>
               <Measure index={i} value={(device.views / maxDatasetViews) * 100} />
               <Value>{formatNumber(totalViews)}</Value>
-              <Label>{device.field}</Label>
+              <Label>{device.field === "tv" ? "TV" : device.field}</Label>
               <div className="flex justify-end" style={{ width: "520px" }}>
                 <Trend border color="green" pastMonthValue={device.views} previousMonthValue={previousMonthViews} />
               </div>
