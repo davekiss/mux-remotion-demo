@@ -17,7 +17,7 @@ export const States: React.FC = () => {
         <div>
           {data[0].data.slice(0, 5).map((d, i) => {
             return (
-              <div className="text-4xl pt-5 pb-20 px-5 flex border-t-2 border-mux-yellow-darker relative">
+              <div key={d.field} className="text-4xl pt-5 pb-20 px-5 flex border-t-2 border-mux-yellow-darker relative">
                 <Measure index={i} value={(d.value / maxDatasetValue) * 100} />
 
                 <div className="text-mux-yellow-darkest mr-6 z-10">0{i + 1}.</div>

@@ -30,29 +30,24 @@ export const VideoTitles: React.FC = () => {
       <div className="grid grid-cols-2 gap-x-10">
         <div>
           {data[0].data.slice(0, 5).map((video_title, i) => (
-            <>
-              <Stat>
-                <Measure index={i} value={(video_title.views / maxDatasetViews) * 100} />
-                <Index>{i + 1}</Index>
-                <Label>{video_title.field}</Label>
-                <Value>{formatNumber(video_title.views)}</Value>
-              </Stat>
-            </>
+            <Stat key={video_title.field}>
+              <Measure index={i} value={(video_title.views / maxDatasetViews) * 100} />
+              <Index>{i + 1}</Index>
+              <Label>{video_title.field}</Label>
+              <Value>{formatNumber(video_title.views)}</Value>
+            </Stat>
           ))}
         </div>
         <div>
           {data[0].data.slice(5, 10).map((video_title, i) => (
-            <>
-              <Stat>
-                <Measure index={i + 5} value={(video_title.views / maxDatasetViews) * 100} />
-                <Index>{i + 6}</Index>
-                <Label>{video_title.field}</Label>
-                <Value>{formatNumber(video_title.views)}</Value>
-              </Stat>
-            </>
+            <Stat key={video_title.field}>
+              <Measure index={i + 5} value={(video_title.views / maxDatasetViews) * 100} />
+              <Index>{i + 6}</Index>
+              <Label>{video_title.field}</Label>
+              <Value>{formatNumber(video_title.views)}</Value>
+            </Stat>
           ))}
         </div>
-
       </div>
     </Layout>
   );
