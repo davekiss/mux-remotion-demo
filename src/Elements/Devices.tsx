@@ -21,20 +21,23 @@ const DEVICE_LOOKUP = {
 
 const Stat = ({ index, children }: { index: number, children: React.ReactNode }) => {
   const frame = useCurrentFrame();
-  const videoConfig = useVideoConfig();
+  const { fps } = useVideoConfig();
+
+  // Scale the index value up by a factor of 8
+  const scale = index * 8;
 
   const offset = spring({
-    frame: frame - 10 - (index * 8), // delay the starting frame of the animation
+    frame: frame - 10 - scale, // delay the starting frame of the animation
     from: -100,
     to: 0,
-    fps: videoConfig.fps,
+    fps,
     config: {
       damping: 60,
       mass: 0.4
     }
   });
 
-  const opacity = interpolate(frame, [10 + (index * 8), 20 + (index * 8)], [0, 1]);
+  const opacity = interpolate(frame, [10 + scale, 20 + scale], [0, 1]);
 
   return (
     <div className="flex items-center border-t-2 border-mux-green-darker p-4 relative" style={{ transform: `translateY(${offset}px)`, opacity }}>{children}</div>
