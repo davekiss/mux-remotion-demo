@@ -9,6 +9,8 @@ import { Devices } from './Elements/Devices';
 import { States } from './Elements/States';
 import { Browsers } from './Elements/Browsers';
 import { VideoTitles } from './Elements/VideoTitles';
+import { Audio } from "remotion";
+import audio from "./static/audio.mp3";
 
 export const RemotionVideo: React.FC = () => {
   return (
@@ -85,6 +87,9 @@ export const RemotionVideo: React.FC = () => {
         fps={30}
         width={1920}
         height={1080}
+      />
+      <Audio
+        src={audio}
       />
     </>
   );
