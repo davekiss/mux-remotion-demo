@@ -22,7 +22,6 @@ const Index = ({ children }: { children: React.ReactNode }) => (
 )
 
 export const VideoTitles: React.FC = () => {
-  // const totalDatasetViews = data[0].data.map(d => d.views).reduce((previousValue, currentValue) => previousValue + currentValue);
   const maxDatasetViews = data[0].data.sort((a, b) => b.views - a.views)[0].views;
 
   return (

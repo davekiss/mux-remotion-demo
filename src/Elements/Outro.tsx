@@ -1,6 +1,4 @@
 import React from 'react';
-import MuxLogo from '../Elements/MuxLogo';
-import { gradients } from './config';
 import { Video } from "remotion";
 import video from "../static/MuxLogo.webm";
 

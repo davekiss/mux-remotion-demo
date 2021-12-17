@@ -1,6 +1,5 @@
 import React from 'react';
 import { useCurrentFrame, useVideoConfig, spring, interpolate } from 'remotion';
-import { gradients } from './config';
 import { formatNumber, getCurrentValue } from '../utils';
 import data from "../data/views_by_device.json";
 import Layout from "../components/Layout";
@@ -53,7 +52,6 @@ const Label = ({ children }: { children: React.ReactNode }) => (
 )
 
 export const Devices: React.FC = () => {
-  const totalDatasetViews = data[0].data.map(d => d.views).reduce((previousValue, currentValue) => previousValue + currentValue);
   const maxDatasetViews = data[0].data.sort((a, b) => b.views - a.views)[0].views;
 
   const frame = useCurrentFrame();
@@ -71,7 +69,7 @@ export const Devices: React.FC = () => {
     <Layout bodyClass="bg-mux-green" title="Views by device" timeframe={data[0].timeframe} >
       <div className="grid grid-rows-5">
         {data[0].data.map((device, i) => {
-          const Icon = DEVICE_LOOKUP[device.field]
+          const Icon = DEVICE_LOOKUP[device.field];
           const totalViews = getCurrentValue(driver, device.views);
           const previousMonthViews = data[1].data.find(d => d.field === device.field)?.views || 0
 

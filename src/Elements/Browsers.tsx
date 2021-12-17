@@ -13,15 +13,15 @@ import data from "../data/unique_viewers_by_browser.json"
 import { formatNumber } from '../utils';
 
 // Passing index allows us to cascade the measurement animation
-const Measure = ({ index, value, percentage }: { index: number, value: number, percentage: number }) => {
+const PieChart = ({ index, value, percentage }: { index: number, value: number, percentage: number }) => {
   const frame = useCurrentFrame();
-  const videoConfig = useVideoConfig();
+  const { fps } = useVideoConfig();
 
-  const m = spring({
+  const measure = spring({
     frame: frame - 10 - (index * 3), // delay the starting frame of the animation
     from: 0,
     to: percentage,
-    fps: videoConfig.fps
+    fps
   });
 
   return (
@@ -32,7 +32,7 @@ const Measure = ({ index, value, percentage }: { index: number, value: number, p
           fill="transparent"
           stroke="white"
           strokeWidth="10"
-          strokeDasharray={`calc(${m} * 31.42 / 100) 31.42`}
+          strokeDasharray={`calc(${measure} * 31.42 / 100) 31.42`}
           transform="rotate(-90) translate(-20)" />
       </svg>
       <div className="z-10 flex flex-col items-center justify-center">
@@ -68,10 +68,10 @@ export const Browsers: React.FC = () => {
 
           return (
             <div key={row.field} className={`flex flex-col items-center ${i < 3 ? "border-r-2 border-mux-blue-darker" : ""}`}>
-              <Measure index={i} value={row.value} percentage={(row.value / totalDatasetViewers) * 100} />
+              <PieChart index={i} value={row.value} percentage={(row.value / totalDatasetViewers) * 100} />
 
               <div className="w-80 text-center mb-16">
-                <Trend color="blue" pastMonthValue={row.value} previousMonthValue={previousMonthViews} />
+                <Trend border={false} color="blue" pastMonthValue={row.value} previousMonthValue={previousMonthViews} />
               </div>
 
               <div className="w-32 h-32 bg-white p-5 rounded-lg mb-10">

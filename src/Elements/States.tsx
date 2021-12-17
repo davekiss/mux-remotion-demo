@@ -7,7 +7,6 @@ import { formatNumber } from '../utils';
 import MapChart from "../components/MapChart";
 
 export const States: React.FC = () => {
-  const totalDatasetValue = data[0].data.slice(0, 5).map(d => d.value).reduce((previousValue, currentValue) => previousValue + currentValue);
   const maxDatasetValue = data[0].data.slice(0, 5).sort((a, b) => b.value - a.value)[0].value;
 
   return (

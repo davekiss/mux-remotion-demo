@@ -1,5 +1,4 @@
 import { interpolate, Sequence, useCurrentFrame, useVideoConfig } from 'remotion';
-import { Title } from './Elements/Title';
 import { Overall } from './Elements/Overall';
 import { Intro } from './Elements/Intro';
 import { Outro } from './Elements/Outro';
@@ -7,11 +6,10 @@ import { Devices } from './Elements/Devices';
 import { States } from './Elements/States';
 import { VideoTitles } from './Elements/VideoTitles';
 import { Browsers } from './Elements/Browsers';
+import { Audio } from "remotion";
+import audio from "./static/audio.mp3";
 
-export const Timeline: React.FC<{
-  titleText: string;
-  titleColor: string;
-}> = ({ titleText, titleColor }) => {
+export const Timeline: React.FC = () => {
   const frame = useCurrentFrame();
   const videoConfig = useVideoConfig();
 
@@ -51,6 +49,7 @@ export const Timeline: React.FC<{
           <Outro />
         </Sequence>
       </div>
+      <Audio src={audio} />
     </div>
   );
 };

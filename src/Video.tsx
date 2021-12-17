@@ -9,8 +9,6 @@ import { Devices } from './Elements/Devices';
 import { States } from './Elements/States';
 import { Browsers } from './Elements/Browsers';
 import { VideoTitles } from './Elements/VideoTitles';
-import { Audio } from "remotion";
-import audio from "./static/audio.mp3";
 
 export const RemotionVideo: React.FC = () => {
   return (
@@ -22,23 +20,10 @@ export const RemotionVideo: React.FC = () => {
         fps={30}
         width={1920}
         height={1080}
-        defaultProps={{
-          titleText: 'Mux Monthly Stats',
-          titleColor: 'black',
-        }}
       />
       <Composition
         id="Intro"
         component={Intro}
-        durationInFrames={180}
-        fps={30}
-        width={1920}
-        height={1080}
-      />
-
-      <Composition
-        id="Outro"
-        component={Outro}
         durationInFrames={180}
         fps={30}
         width={1920}
@@ -52,7 +37,6 @@ export const RemotionVideo: React.FC = () => {
         width={1920}
         height={1080}
       />
-
       <Composition
         id="Devices"
         component={Devices}
@@ -61,25 +45,6 @@ export const RemotionVideo: React.FC = () => {
         width={1920}
         height={1080}
       />
-
-      <Composition
-        id="States"
-        component={States}
-        durationInFrames={180}
-        fps={30}
-        width={1920}
-        height={1080}
-      />
-
-      <Composition
-        id="Browsers"
-        component={Browsers}
-        durationInFrames={180}
-        fps={30}
-        width={1920}
-        height={1080}
-      />
-
       <Composition
         id="VideoTitles"
         component={VideoTitles}
@@ -88,8 +53,29 @@ export const RemotionVideo: React.FC = () => {
         width={1920}
         height={1080}
       />
-      <Audio
-        src={audio}
+      <Composition
+        id="States"
+        component={States}
+        durationInFrames={180}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="Browsers"
+        component={Browsers}
+        durationInFrames={180}
+        fps={30}
+        width={1920}
+        height={1080}
+      />
+      <Composition
+        id="Outro"
+        component={Outro}
+        durationInFrames={180}
+        fps={30}
+        width={1920}
+        height={1080}
       />
     </>
   );
