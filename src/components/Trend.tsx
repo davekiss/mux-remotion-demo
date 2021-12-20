@@ -3,13 +3,13 @@ import { useCurrentFrame, useVideoConfig, spring } from 'remotion';
 
 const Trend = ({ border = false, color, previousMonthValue, pastMonthValue }: { border: boolean; color: string; previousMonthValue: number; pastMonthValue: number; }) => {
   const frame = useCurrentFrame();
-  const videoConfig = useVideoConfig();
+  const { fps } = useVideoConfig();
 
   const y = spring({
     frame,
     from: 100,
     to: 0,
-    fps: videoConfig.fps,
+    fps,
     config: {
       stiffness: 100,
     },
