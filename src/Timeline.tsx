@@ -1,4 +1,4 @@
-import { interpolate, Sequence, useCurrentFrame, useVideoConfig } from 'remotion';
+import { interpolate, Sequence, Series, useCurrentFrame, useVideoConfig } from 'remotion';
 import { Overall } from './Elements/Overall';
 import { Intro } from './Elements/Intro';
 import { Outro } from './Elements/Outro';
@@ -22,32 +22,33 @@ export const Timeline: React.FC = () => {
       extrapolateRight: 'clamp',
     }
   );
-  const transitionStart = 25;
 
   return (
     <div style={{ flex: 1, backgroundColor: 'white' }}>
       <div style={{ opacity }}>
-        <Sequence from={0} durationInFrames={125}>
-          <Intro />
-        </Sequence>
-        <Sequence from={transitionStart + 100} durationInFrames={180}>
-          <Overall />
-        </Sequence>
-        <Sequence from={transitionStart + 280} durationInFrames={180}>
-          <Devices />
-        </Sequence>
-        <Sequence from={transitionStart + 460} durationInFrames={180}>
-          <VideoTitles />
-        </Sequence>
-        <Sequence from={transitionStart + 640} durationInFrames={180}>
-          <States />
-        </Sequence>
-        <Sequence from={transitionStart + 820} durationInFrames={180}>
-          <Browsers />
-        </Sequence>
-        <Sequence from={transitionStart + 1000} durationInFrames={180}>
-          <Outro />
-        </Sequence>
+        <Series>
+          <Series.Sequence name="Intro" durationInFrames={180}>
+            <Intro />
+          </Series.Sequence>
+          <Series.Sequence name="Overall" durationInFrames={180}>
+            <Overall />
+          </Series.Sequence>
+          <Series.Sequence name="Devices" durationInFrames={180}>
+            <Devices />
+          </Series.Sequence>
+          <Series.Sequence name="Top10Titles" durationInFrames={180}>
+            <VideoTitles />
+          </Series.Sequence>
+          <Series.Sequence name="States" durationInFrames={180}>
+            <States />
+          </Series.Sequence>
+          <Series.Sequence name="Browsers" durationInFrames={180}>
+            <Browsers />
+          </Series.Sequence>
+          <Series.Sequence name="Outro" durationInFrames={180}>
+            <Outro />
+          </Series.Sequence>
+        </Series>
       </div>
       <Audio src={audio} />
     </div>
