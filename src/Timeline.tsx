@@ -1,11 +1,11 @@
 import { interpolate, Series, useCurrentFrame, useVideoConfig } from 'remotion';
-import { Overall } from './clips/2-Overall';
 import { Intro } from './clips/1-Intro';
-import { Outro } from './clips/7-Outro';
+import { Overall } from './clips/2-Overall';
 import { Devices } from './clips/3-Devices';
-import { States } from './clips/5-States';
 import { VideoTitles } from './clips/4-VideoTitles';
+import { States } from './clips/5-States';
 import { Browsers } from './clips/6-Browsers';
+import { Outro } from './clips/7-Outro';
 import { Audio } from "remotion";
 import audio from "./static/audio.mp3";
 
@@ -13,6 +13,7 @@ export const Timeline: React.FC = () => {
   const frame = useCurrentFrame();
   const videoConfig = useVideoConfig();
 
+  // Fade out at the end of the video
   const opacity = interpolate(
     frame,
     [videoConfig.durationInFrames - 25, videoConfig.durationInFrames - 15],
