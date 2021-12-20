@@ -1,8 +1,8 @@
 import React from 'react';
 import { interpolate, useCurrentFrame } from 'remotion';
-import { GRAY } from '../Elements/config';
+import { GRAY } from '../clips/config';
 import { format } from 'date-fns';
-import MuxLogo from '../Elements/MuxLogo';
+import MuxLogo from '../clips/MuxLogo';
 
 const DateRange = ({ children }: { children: React.ReactNode }) => (
   <div className="text-mux-gray text-5xl tracking-tight">{children}</div>

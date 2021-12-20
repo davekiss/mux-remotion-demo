@@ -1,11 +1,11 @@
-import { interpolate, Sequence, Series, useCurrentFrame, useVideoConfig } from 'remotion';
-import { Overall } from './Elements/Overall';
-import { Intro } from './Elements/Intro';
-import { Outro } from './Elements/Outro';
-import { Devices } from './Elements/Devices';
-import { States } from './Elements/States';
-import { VideoTitles } from './Elements/VideoTitles';
-import { Browsers } from './Elements/Browsers';
+import { interpolate, Series, useCurrentFrame, useVideoConfig } from 'remotion';
+import { Overall } from './clips/Overall';
+import { Intro } from './clips/Intro';
+import { Outro } from './clips/Outro';
+import { Devices } from './clips/Devices';
+import { States } from './clips/States';
+import { VideoTitles } from './clips/VideoTitles';
+import { Browsers } from './clips/Browsers';
 import { Audio } from "remotion";
 import audio from "./static/audio.mp3";
 
