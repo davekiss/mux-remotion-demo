@@ -28,7 +28,7 @@ export const Timeline: React.FC = () => {
     <div style={{ flex: 1, backgroundColor: 'white' }}>
       <div style={{ opacity }}>
         <Series>
-          <Series.Sequence name="Intro" durationInFrames={135}>
+          <Series.Sequence name="Intro" durationInFrames={130}>
             <Intro />
           </Series.Sequence>
           <Series.Sequence name="Overall" durationInFrames={180}>

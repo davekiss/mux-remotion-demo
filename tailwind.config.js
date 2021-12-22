@@ -5,6 +5,14 @@ module.exports = {
       sans: ['Akkurat', 'Helvetica Neue', 'sans-serif'],
       mono: ['Akkurat Mono', 'monaco', 'monospace']
     },
+    fontSize: {
+      'base': '32px',
+      'lg': '36px',
+      'xl': '48px',
+      '2xl': '100px',
+      '3xl': '120px',
+      '4xl': '140px',
+    },
     extend: {
       colors: {
         'mux-black': '#252525',

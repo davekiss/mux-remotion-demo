@@ -6,15 +6,15 @@ import { formatNumber } from '../utils';
 import data from "../data/views_by_title.json";
 
 const Stat = ({ children }: { children: React.ReactNode }) => (
-  <div className="flex border-t-2 border-mux-purple pt-5 px-4 text-4xl relative h-36">{children}</div>
+  <div className="flex border-t-2 border-mux-purple pt-5 px-4 relative h-36 tracking-tight" style={{ fontSize: "46px", lineHeight: "54px" }}>{children}</div>
 )
 
 const Value = ({ children }: { children: React.ReactNode }) => (
-  <div className="font-normal z-10 tracking-tight">{children}</div>
+  <div className="font-normal z-10">{children}</div>
 )
 
 const Label = ({ children }: { children: React.ReactNode }) => (
-  <div className="text-mux-black flex-1 z-10 mr-10 tracking-tight">{children}</div>
+  <div className="text-mux-black flex-1 z-10 mr-10">{children}</div>
 )
 
 const Index = ({ children }: { children: React.ReactNode }) => (

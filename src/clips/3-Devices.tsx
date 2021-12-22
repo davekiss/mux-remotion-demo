@@ -39,16 +39,16 @@ const Stat = ({ index, children }: { index: number, children: React.ReactNode })
   const opacity = interpolate(frame, [10 + scale, 20 + scale], [0, 1]);
 
   return (
-    <div className="flex items-center border-t-2 border-mux-green-darker p-4 relative" style={{ transform: `translateY(${offset}px)`, opacity }}>{children}</div>
+    <div className="flex items-center border-t-2 border-mux-green-darker py-6 px-4 relative" style={{ transform: `translateY(${offset}px)`, opacity }}>{children}</div>
   )
 }
 
 const Value = ({ children }: { children: React.ReactNode }) => (
-  <div className="z-10 font-sans tracking-tight" style={{ width: "600px", fontSize: `100px` }}>{children}</div>
+  <div className="z-10 font-sans tracking-tight text-3xl leading-none" style={{ width: "650px" }}>{children}</div>
 )
 
 const Label = ({ children }: { children: React.ReactNode }) => (
-  <div className="text-mux-black text-4xl font-sans capitalize z-10 tracking-tight" style={{ width: "400px" }}>{children}</div>
+  <div className="text-mux-black text-lg font-sans capitalize z-10 tracking-tight" style={{ width: "300px" }}>{children}</div>
 )
 
 export const Devices: React.FC = () => {
@@ -81,7 +81,7 @@ export const Devices: React.FC = () => {
               <Measure index={i} value={(device.views / maxDatasetViews) * 100} />
               <Value>{formatNumber(totalViews)}</Value>
               <Label>{device.field === "tv" ? "TV" : device.field}</Label>
-              <div className="flex justify-end" style={{ width: "520px" }}>
+              <div className="flex justify-end -mt-4" style={{ width: "550px" }}>
                 <Trend border color="green" pastMonthValue={device.views} previousMonthValue={previousMonthViews} />
               </div>
             </Stat>

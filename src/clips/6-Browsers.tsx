@@ -37,10 +37,10 @@ const PieChart = ({ index, value, percentage }: { index: number, value: number, 
       </svg>
       <div className="z-10 flex flex-col items-center justify-center">
         <div className="font-sans font-normal flex items-start">
-          <span className="tracking-tight" style={{ fontSize: "100px" }}>{percentage.toFixed(1)}</span>
+          <span className="tracking-tight text-2xl">{percentage.toFixed(1)}</span>
           <span style={{ fontSize: "30px", transform: "translateY(36px)" }}>%</span>
         </div>
-        <span className="font-sans font-normal tracking-tight" style={{ fontSize: "36px" }}>{formatNumber(value)} views</span>
+        <span className="font-sans font-normal tracking-tight text-lg">{formatNumber(value)} views</span>
       </div>
     </div>
   )
@@ -70,15 +70,15 @@ export const Browsers: React.FC = () => {
             <div key={row.field} className={`flex flex-col items-center ${i < 3 ? "border-r-2 border-mux-blue-darker" : ""}`}>
               <PieChart index={i} value={row.value} percentage={(row.value / totalDatasetViewers) * 100} />
 
-              <div className="w-80 text-center mb-16">
+              <div className="w-80 text-center mb-14">
                 <Trend border={false} color="blue" pastMonthValue={row.value} previousMonthValue={previousMonthViews} />
               </div>
 
-              <div className="w-32 h-32 bg-white p-5 rounded-lg mb-10">
-                <Img src={icon} className="mb-4" />
+              <div className="w-32 h-32 bg-white p-5 rounded-lg mb-8">
+                <Img src={icon} />
               </div>
 
-              <p className="text-5xl text-mux-black font-sans tracking-tight">{row.field}</p>
+              <p className="text-lg text-mux-black font-sans tracking-tight">{row.field}</p>
             </div>
           )
         })}
