@@ -44,11 +44,11 @@ const Stat = ({ index, children }: { index: number, children: React.ReactNode })
 }
 
 const Value = ({ children }: { children: React.ReactNode }) => (
-  <div className="z-10 font-sans tracking-tight text-3xl leading-none" style={{ width: "650px" }}>{children}</div>
+  <div className="z-10 font-sans tracking-tight text-3xl leading-none" style={{ width: "700px" }}>{children}</div>
 )
 
 const Label = ({ children }: { children: React.ReactNode }) => (
-  <div className="text-mux-black text-lg font-sans capitalize z-10 tracking-tight" style={{ width: "300px" }}>{children}</div>
+  <div className="text-mux-black text-lg font-sans capitalize z-10 tracking-tight" style={{ width: "250px" }}>{children}</div>
 )
 
 export const Devices: React.FC = () => {
