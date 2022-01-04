@@ -44,15 +44,15 @@ const Stat = ({ index, children }: { index: number, children: React.ReactNode })
 }
 
 const Value = ({ children }: { children: React.ReactNode }) => (
-  <div className="z-10 font-sans tracking-tight text-3xl leading-none" style={{ width: "650px" }}>{children}</div>
+  <div className="z-10 font-sans tracking-tight text-3xl leading-none" style={{ width: "700px" }}>{children}</div>
 )
 
 const Label = ({ children }: { children: React.ReactNode }) => (
-  <div className="text-mux-black text-lg font-sans capitalize z-10 tracking-tight" style={{ width: "300px" }}>{children}</div>
+  <div className="text-mux-black text-lg font-sans capitalize z-10 tracking-tight" style={{ width: "250px" }}>{children}</div>
 )
 
 export const Devices: React.FC = () => {
-  const maxDatasetViews = data[0].data.sort((a, b) => b.views - a.views)[0].views;
+  const leadingDeviceViews = data[0].data.sort((a, b) => b.views - a.views)[0].views;
 
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
@@ -78,7 +78,7 @@ export const Devices: React.FC = () => {
               <div className="z-10 w-28 pl-6 mr-20">
                 <Icon />
               </div>
-              <Measure index={i} value={(device.views / maxDatasetViews) * 100} />
+              <Measure index={i} value={(device.views / leadingDeviceViews) * 100} />
               <Value>{formatNumber(totalViews)}</Value>
               <Label>{device.field === "tv" ? "TV" : device.field}</Label>
               <div className="flex justify-end -mt-4" style={{ width: "550px" }}>
