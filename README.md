@@ -1,5 +1,7 @@
 # mux-remotion-demo
 
+This repository contains an demonstration of how to create a video using Mux Data and Remotion.
+
 Make sure to set your Mux access token and secret key!
 
 Copy the `.env.example` file to a new file called `.env` and add your keys there.
@@ -10,9 +12,7 @@ This demo uses `date-fns` to help easily calculate timeframes for which we'd lik
 
 ### Notes
 
-- `Composition` elements defined in `Video.tsx` will be added to the media library in the app sidebar.
-- Setting a `durationInFrames` prop on the `Sequence` component in the `Timeline` specifies how long the component should display for.
-- Pin the version of Remotion
+- Setting a `durationInFrames` prop on the `Sequence` component in the `Timeline` specifies how long each component should display for.
 
 ## Commands
 
@@ -48,7 +48,7 @@ Get started with Remotion by reading the [fundamentals page](https://www.remotio
 
 ## Help
 
-We provide help [on our Discord server](https://discord.gg/6VzzNDwUwV).
+Remotion provides help [on our Discord server](https://discord.gg/6VzzNDwUwV).
 
 ## Issues
 
